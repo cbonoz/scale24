@@ -7,6 +7,12 @@
 
 Do mediated proof of fund requests with one click without exposing your addresses to the requester.
 
+Built for <a href="https://ethglobal.com/events/scaling2024">Scaling Ethereum 2024</a>.
+
+Live Demo url: fundpoint.vercel.app
+
+Demo video:
+
 **Inspiration**
 
 Many high value purchases warrant proof of funds requests to know if a given offer or potential buyer is serious.
@@ -14,6 +20,12 @@ Many high value purchases warrant proof of funds requests to know if a given off
 With Fundpoint, you can prove or assert you have a certain balance on connected wallets without exposing any of your addresses or credentials to the requester. Fundpoint generates a proof point at the time of sign that can be shared with the requester with a certificate that is saved to web3.storage/ipfs/saturn.
 
 The traditional real estate transaction process is riddled with inefficiencies and a lack of transparency. FundPoint is inspired by the potential of zero-knowledge proofs to revolutionize this process by enabling secure and privacy-preserving proof of balance for buyers.
+
+**Technologies used**
+
+* **EthSign:** Enables secure signing of transactions on the Gnosis chain.
+* **Gnosis Chain:** Provides a scalable and cost-effective platform for the application's core functionality.
+* **RISC Zero:** Offers the zero-knowledge proof technology that underpins the core verification process.
 
 **What it does**
 
@@ -27,15 +39,9 @@ FundPoint is a mobile application that leverages zero-knowledge proofs to stream
     * Verify proofs using the app to confirm a buyer's financial eligibility for a smooth pre-qualification process.
     * Expedite serious offers by eliminating the need for lengthy document verification.
 
-FundPoint integrates with three key technologies:
-
-* **EthSign:** Enables secure signing of transactions on the Gnosis chain.
-* **Gnosis Chain:** Provides a scalable and cost-effective platform for the application's core functionality.
-* **RISC Zero:** Offers the zero-knowledge proof technology that underpins the core verification process.
-
 **How we built it**
 
-* **Frontend:** Developed using a user-friendly mobile framework (e.g., React Native) for a seamless user experience.
+* **Frontend:** NextJS / deployed on Vercel.
 * **Backend:** Built on the Gnosis chain leveraging smart contracts to manage and verify zero-knowledge proofs.
 * **Security:** Implemented industry-standard security best practices for user data and financial information, integrating with EthSign for secure transaction signing.
 * **Zero-Knowledge Proofs:** Integrated RISC Zero library to enable the generation and verification of proofs without revealing sensitive financial data.
@@ -59,3 +65,5 @@ FundPoint integrates with three key technologies:
 * Implementing features for more complex financial scenarios (e.g., down payments, proof of income).
 * Exploring partnerships with real estate agents and brokerages for wider integration.
 * Educating users about the benefits of zero-knowledge proofs and blockchain technology for real estate transactions.
+
+### Image gallery
