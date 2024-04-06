@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src='./img/logo.png' width=400 />
+    <img src='./public/logo.png' width=400 />
 </p>
 
 ## FundPoint
@@ -44,7 +44,7 @@ FundPoint integrates with three key technologies:
 
 * **Balancing Security and Privacy:** Striking a balance between ensuring robust security for the platform while maintaining user privacy and minimizing the amount of revealed financial information.
 * **Integration Complexity:** Seamlessly integrating different technologies (EthSign, Gnosis chain, RISC Zero) within the application.
-* **User Adoption:** Encouraging both buyers and sellers to adopt a new approach to real estate transactions. 
+* **User Adoption:** Encouraging both buyers and sellers to adopt a new approach to real estate transactions.
 
 **Accomplishments that we're proud of**
 
