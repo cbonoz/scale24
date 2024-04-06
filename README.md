@@ -4,8 +4,7 @@
 
 ## FundPoint
 
-
-Do mediated proof of fund requests with one click without exposing your addresses to the requester.
+Mediated proof of fund requests with one click without exposing your addresses or balance to the requester.
 
 Built for <a href="https://ethglobal.com/events/scaling2024">Scaling Ethereum 2024</a>.
 
@@ -65,5 +64,15 @@ FundPoint is a mobile application that leverages zero-knowledge proofs to stream
 * Implementing features for more complex financial scenarios (e.g., down payments, proof of income).
 * Exploring partnerships with real estate agents and brokerages for wider integration.
 * Educating users about the benefits of zero-knowledge proofs and blockchain technology for real estate transactions.
+
+## Useful links
+* https://ethglobal.com/events/scaling2024/home
+* https://ethglobal.com/events/scaling2024/prizes
+
+* https://docs.sign.global/developer-apis/index-1/npm-sdk
+<!-- https://www.youtube.com/watch?v=X2SIfaUWPI0&t=124s -->
+
+* https://github.com/boidushya/web3modal-gnosis/blob/master/configs/index.tsx
+* https://docs.saturn.tech/
 
 ### Image gallery

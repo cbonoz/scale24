@@ -9,11 +9,11 @@ const NavHeader = () => {
       </div>
       <nav className="flex space-x-4 pl-4">
         <a href="/upload" className="text-gray-500 hover:underline pr-4">
-          Upload product
+          Upload request
         </a>
         &nbsp;|&nbsp;
-        <a href="/scan" className="text-gray-500 hover:underline">
-          Scan
+        <a href="/sign" className="text-gray-500 hover:underline">
+          Sign
         </a>
       </nav>
     </header>

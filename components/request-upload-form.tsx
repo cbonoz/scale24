@@ -8,21 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { isEmpty } from "@/lib/utils";
+import { isEmpty, signUrl } from "@/lib/utils";
 import { setKey } from "@/util/api";
 import RenderObject from "./render-object";
 
 const formSchema = z.object({
   name: z.string().min(3, {
-    message: "Product name must be at least 3 characters.",
+    message: "Request name must be at least 3 characters.",
   }),
-  sku: z.string().min(10, {
-    message: "Barcode must be at least 10 characters.",
-  }),
-  emissions: z.string().optional(),
-  // notes
-  notes: z.string().optional(),
+  recipient: z.string().min(3, {
+    message: "Recipient name must be at least 3 characters.",
+    }),
+  // optional
   date: z.date().optional(),
+  notes: z.string().optional(),
 });
 
 function UploadForm() {
@@ -32,11 +31,8 @@ function UploadForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "Nature granola bars",
-      sku: "1234567890",
-      emissions: "0.42 kg/serving",
-      // example notes for a product evaluation
-      notes: "This product has a high carbon footprint relative to competitors.",
+      name: "$5000 balance verification",
+      notes: "This is to validate proof of funds to have an offer considered",
       date: new Date(),
     },
   });
@@ -45,12 +41,15 @@ function UploadForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     try {
-      await setKey(values.sku, values);
+      // upload contract
+      // TODO
+      const address = "0x123";
+
+
       setResult({
-        success:
-          "Product uploaded successfully with barcode " +
-          values.sku +
-          ". Users can now discover this product when scanned.",
+        success: true,
+        message: 'Request created successfully. Share the below url with the intended recipient.',
+        url: signUrl(address),
       });
       // scroll to result
       window.scrollTo(0, document.body.scrollHeight);
@@ -78,43 +77,11 @@ function UploadForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Enter product name</FormLabel>
+                  <FormLabel>Enter fund request name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nature granola bars" {...field} />
+                    <Input placeholder="$5000 balance request verification" {...field} />
                   </FormControl>
-                  <FormDescription>Name of the product to index.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Barcode */}
-
-            <FormField
-              control={form.control}
-              name="sku"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Enter barcode</FormLabel>
-                  <FormControl>
-                    <Input placeholder="1234567890" {...field} />
-                  </FormControl>
-                  <FormDescription>Barcode of the product to index.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Emissions */}
-            <FormField
-              control={form.control}
-              name="emissions"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Enter estimated CO2 emissions</FormLabel>
-                  <FormControl>
-                    <Input type="string" placeholder={"0.42 kg/serving"} {...field} />
-                  </FormControl>
-                  <FormDescription>Estimated Carbon Dioxide (CO2) emissions of producing the product.</FormDescription>
+                  <FormDescription>Name of the request.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -126,11 +93,11 @@ function UploadForm() {
               name="notes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Enter notes</FormLabel>
+                  <FormLabel>Enter description</FormLabel>
                   <FormControl>
                     <Input placeholder="Notes" {...field} />
                   </FormControl>
-                  <FormDescription>Notes about the product.</FormDescription>
+                  <FormDescription>Additional notes for the request.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -142,9 +109,9 @@ function UploadForm() {
               disabled={true}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date uploaded</FormLabel>
+                  <FormLabel>Date</FormLabel>
                   <FormControl>
-                    <Input placeholder="Date uploaded" disabled={true} value={new Date().toLocaleDateString()} />
+                    <Input placeholder="Date" disabled={true} value={new Date().toLocaleDateString()} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
