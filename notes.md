@@ -8,7 +8,7 @@ Mediated proof of fund requests with one click without exposing your addresses o
 
 Built for <a href="https://ethglobal.com/events/scaling2024">Scaling Ethereum 2024</a>.
 
-Live Demo url: fundpoint.vercel.app
+Live Demo url: https://fundpoint.vercel.app (Stylus testnet)
 
 Demo video:
 

@@ -8,12 +8,15 @@ import {
 } from '@ethsign/sp-sdk'
 import { privateKeyToAccount } from 'viem/accounts'
 
+import { arbitrumSepolia } from 'viem/chains'
+
 // https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
 const privateKey = '0xabc' // optional
 
 const getClient = () => {
     const client = new SignProtocolClient(SpMode.OffChain, {
         signType: OffChainSignType.EvmEip712,
+        rpcUrl: 'https://stylus-testnet.arbitrum.io/rpc',
         // account: privateKeyToAccount(privateKey), // optional
     })
     return client
