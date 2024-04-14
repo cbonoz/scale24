@@ -7,17 +7,17 @@ export const RouteButtons = () => {
   return (
     <div className="flex space-x-4">
       <button
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
         onClick={() => router.push("/upload")}
       >
-        Upload
+        Create request
       </button>
 
       <button
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
         onClick={() => router.push("/sign")}
       >
-        Sign
+        Verify existing request
       </button>
     </div>
   );

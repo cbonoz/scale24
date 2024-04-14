@@ -21,6 +21,7 @@ const formSchema = z.object({
     }),
   // optional
   date: z.date().optional(),
+  file: z.any().optional(),
   notes: z.string().optional(),
 });
 
@@ -28,13 +29,17 @@ function UploadForm() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
+  const setDemoData = async () => {
+    form.setValue("name", "Balance verification request");
+    form.setValue("notes", "This is to validate proof of funds to have an offer considered");
+    form.setValue("recipient", "John Doe");
+    form.setValue("date", new Date());
+    form.setValue("file", null);
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "$5000 balance verification",
-      notes: "This is to validate proof of funds to have an offer considered",
-      date: new Date(),
-    },
+    defaultValues: {},
   });
 
   // 2. Define a submit handler.
@@ -71,7 +76,10 @@ function UploadForm() {
     <div>
       {!hasResult && (
         <Form {...form}>
+            <a href='#' className='hover:underline text-blue-500 cursor-pointer pointer' onClick={setDemoData}>Set demo data</a>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+            {/* Name */}
             <FormField
               control={form.control}
               name="name"
@@ -103,6 +111,39 @@ function UploadForm() {
               )}
             />
 
+
+            {/* add files */}
+
+            <FormField
+              control={form.control}
+              name="recipient"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Recipient name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Recipient name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+
+            />
+
+            <FormField
+              control={form.control}
+              name="file"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Add attachment</FormLabel>
+                  <FormControl>
+                    <Input type="file" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+              />
+
+
             <FormField
               control={form.control}
               name="date"
@@ -119,7 +160,7 @@ function UploadForm() {
             />
 
             <Button disabled={loading} type="submit">
-              Submit
+              Create request
             </Button>
           </form>
 
@@ -136,7 +177,7 @@ function UploadForm() {
       )}
       {hasResult && (
         <div className="pt-8">
-          <Button onClick={() => setResult(null)}> ← Back to form</Button>
+          <Button onClick={() => setResult(null)}> ← Create another request</Button>
           <div className="mt-4">
             <RenderObject title="Result" obj={result} />
           </div>
