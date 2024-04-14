@@ -1,3 +1,4 @@
+import { config } from '@/util/site-config'
 import {
     SignProtocolClient,
     SpMode,
@@ -9,26 +10,34 @@ import { privateKeyToAccount } from 'viem/accounts'
 
 // https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
 const privateKey = '0xabc' // optional
-const client = new SignProtocolClient(SpMode.OffChain, {
-    signType: OffChainSignType.EvmEip712,
-    account: privateKeyToAccount(privateKey), // optional
-})
+
+const getClient = () => {
+    const client = new SignProtocolClient(SpMode.OffChain, {
+        signType: OffChainSignType.EvmEip712,
+        // account: privateKeyToAccount(privateKey), // optional
+    })
+    return client
+}
 
 export const createSchema = async () => {
     //create schema
+    const client = getClient()
     const schemaInfo = await client.createSchema({
-        name: 'xxx',
+        name: config.title,
         data: [{ name: 'name', type: 'string' }],
     })
+    return schemaInfo
 }
 
 export const createAttestation = async () => {
+    const client = getClient()
     //create attestation
     const attestationInfo = await client.createAttestation({
         schemaId: 'xxxx', //schemaInfo.schemaId or other schemaId
         data: { name: 'a' },
         indexingValue: 'xxx',
     })
+    return attestationInfo
 }
 
 //revoke attestation

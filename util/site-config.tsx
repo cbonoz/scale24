@@ -1,6 +1,7 @@
 export const config = {
     title: 'FundPoint',
     description: 'Blockchain-mediated proof of fund requests with one click',
+    isLocal: process.env.NEXT_PUBLIC_ENV === 'development',
     about: [
         {
             title: 'What is FundPoint?',

@@ -20,6 +20,10 @@ import { isEmpty, signUrl } from '@/lib/utils'
 import { setKey } from '@/util/api'
 import RenderObject from './render-object'
 import { Textarea } from './ui/textarea'
+import { ReloadIcon } from '@radix-ui/react-icons'
+import { uploadFile } from '@/lib/stor'
+import { deployContract } from 'viem/zksync'
+import { deploy } from '@/lib/contract/deploy'
 
 const formSchema = z.object({
     name: z.string().min(3, {
@@ -49,6 +53,14 @@ function UploadForm() {
         form.setValue('file', null)
     }
 
+    const clearForm = () => {
+        form.setValue('name', '')
+        form.setValue('notes', '')
+        form.setValue('recipient', '')
+        form.setValue('date', new Date())
+        form.setValue('file', null)
+    }
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {},
@@ -58,20 +70,30 @@ function UploadForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true)
         try {
+            const address = '0x123'
+            const res: any = {}
+
+            // upload file
+            const file = values.file
+            let cid = ''
+            if (file) {
+                cid = await uploadFile(file)
+                console.log('fileAddress', cid)
+            }
             // upload contract
             // TODO
-            const address = '0x123'
 
-            setResult({
-                success: true,
-                message:
-                    'Request created successfully. Share the below url with the intended recipient.',
-                url: signUrl(address),
-            })
+            const contractAddress = await deploy(res, [])
+            res['contractAddress'] = contractAddress
+            res['cid'] = cid
+            res['message'] =
+                'Request created successfully. Share the below url with the intended recipient.'
+            res['url'] = signUrl(address)
+
+            setResult(res)
             // scroll to result
             window.scrollTo(0, document.body.scrollHeight)
-
-            form.setValue('name', '')
+            clearForm()
         } catch (err: any) {
             console.error(err)
             setResult({
@@ -196,7 +218,9 @@ function UploadForm() {
                                         <Input
                                             placeholder="Date"
                                             disabled={true}
-                                            value={new Date().toLocaleDateString()}
+                                            value={form
+                                                .getValues()
+                                                .date?.toLocaleDateString()}
                                         />
                                     </FormControl>
                                     <FormDescription>
@@ -210,6 +234,9 @@ function UploadForm() {
                         />
 
                         <Button disabled={loading} type="submit">
+                            {loading && (
+                                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                            )}
                             Create request
                         </Button>
                     </form>

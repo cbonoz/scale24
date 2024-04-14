@@ -23,7 +23,7 @@ The traditional real estate transaction process is riddled with inefficiencies a
 **Technologies used**
 
 * **EthSign:** Enables secure signing of transactions on the Gnosis chain.
-* **Gnosis Chain:** Provides a scalable and cost-effective platform for the application's core functionality.
+* **Stylus:** Provides a scalable and cost-effective platform for the application's core functionality.
 * **RISC Zero:** Offers the zero-knowledge proof technology that underpins the core verification process.
 
 **What it does**
@@ -69,6 +69,7 @@ FundPoint is a mobile application that leverages zero-knowledge proofs to stream
 * https://ethglobal.com/events/scaling2024/home
 * https://ethglobal.com/events/scaling2024/prizes
 
+* https://docs.arbitrum.io/stylus/stylus-quickstart
 * https://docs.sign.global/developer-apis/index-1/npm-sdk
 <!-- https://www.youtube.com/watch?v=X2SIfaUWPI0&t=124s -->
 

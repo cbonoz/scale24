@@ -20,7 +20,7 @@ const NavHeader = () => {
                 </a>
                 |
                 <a href="/sign" className="text-gray-500 hover:underline mx-4">
-                    Verify existing request
+                    Verify balance request
                 </a>
                 |
                 <a href="/about" className="text-gray-500 hover:underline mx-4">
