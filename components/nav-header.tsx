@@ -32,12 +32,10 @@ const NavHeader = () => {
                 {/* align right */}
             </nav>
             <span className="ml-auto align-right justify-end">
-                <span>
-                    <SwitchNetwork />
-                </span>
-                <span>
-                    <ConnectWallet />
-                </span>
+                <SwitchNetwork />
+            </span>
+            <span className="align-right justify-end">
+                <ConnectWallet />
             </span>
         </header>
     )

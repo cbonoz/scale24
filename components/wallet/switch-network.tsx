@@ -16,14 +16,14 @@ export function SwitchNetwork() {
     const { chains, switchChain } = useSwitchChain()
     const currentChainId = useChainId()
 
-    const chainId = currentChainId + ''
+    console.log('chain id', currentChainId, chains)
 
     return (
         <Select
             onValueChange={(cid: string) =>
-                switchChain({ chainId: parseInt(cid) })
+                cid && switchChain({ chainId: parseInt(cid) })
             }
-            value={chainId}
+            value={currentChainId + ''}
         >
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select network" />
@@ -32,7 +32,7 @@ export function SwitchNetwork() {
             <SelectContent>
                 <SelectGroup>
                     {chains.map((chain) => (
-                        <SelectItem value={chain.id as any}>
+                        <SelectItem key={chain.id} value={chain.id + ''}>
                             {chain.name}
                         </SelectItem>
                     ))}

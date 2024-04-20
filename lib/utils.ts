@@ -42,7 +42,8 @@ export const getPlaceholderDescription = () => {
 
 export const transformMetadata = (contractData: ContractMetadata) => {
     contractData.balance = Number(contractData.balance)
-    contractData.validatedAt = Number(contractData.validatedAt)
+    contractData.validatedAt = Number(contractData.validatedAt) * 1000
+    contractData.createdAt = Number(contractData.createdAt) * 1000
     return contractData
 }
 

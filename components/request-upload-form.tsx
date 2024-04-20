@@ -119,7 +119,7 @@ function UploadForm() {
                 recipientName,
                 recipientAddress,
                 cid,
-                currentChain?.name || '',
+                currentChain?.name || ''
             )
             res['contractAddress'] = contractAddress
             res['contractUrl'] = getExplorerUrl(contractAddress, currentChain)
@@ -249,7 +249,12 @@ function UploadForm() {
                             name="balance"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Required balance</FormLabel>
+                                    <FormLabel>
+                                        Required balance{' '}
+                                        {currentChain?.name && (
+                                            <span>({currentChain?.name})</span>
+                                        )}
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Required balance"
@@ -257,7 +262,10 @@ function UploadForm() {
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Required balance
+                                        Required balance. Uses native chain
+                                        currency i.e.{' '}
+                                        {currentChain?.nativeCurrency?.name ||
+                                            'ETH'}
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

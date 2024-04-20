@@ -5,7 +5,7 @@ import BasicCard from '@/components/basic-card'
 import RenderObject from '@/components/render-object'
 import { Button } from '@/components/ui/button'
 import { FUND_CONTRACT } from '@/lib/contract/metadata'
-import { createAttestation } from '@/lib/ethsign'
+import { simulateContract, writeContract } from '@wagmi/core'
 import { useEthersSigner } from '@/lib/get-signer'
 import { ContractMetadata, SchemaEntry } from '@/lib/types'
 import { getExplorerUrl, getIpfsUrl, transformMetadata } from '@/lib/utils'
@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import { Address, Chain, createPublicClient, http } from 'viem'
 import { readContract } from 'viem/actions'
+import {writeContract} from 'wagmi/core'
 
 import { useAccount, useChainId, useChains, useWriteContract } from 'wagmi'
 
@@ -76,8 +77,6 @@ export default function FundRequest({ params }: { params: Params }) {
     //     args: ['0x03A71968491d55603FFe1b11A9e23eF013f75bCF'],
     //   })
 
-    const { writeContract } = useWriteContract()
-
     async function signRequest() {
         if (!data) {
             alert('No data to sign - try another url')
@@ -101,8 +100,10 @@ export default function FundRequest({ params }: { params: Params }) {
                 // signatureData,
             }
 
-            const attestation = await createAttestation(signer, schemaEntry)
-            const res = writeContract({
+            // const attestation = await createAttestation(signer, schemaEntry)
+            const attestation = { attestationId: '1234' }
+
+            const res = await writeContract({
                 abi: FUND_CONTRACT.abi,
                 address: requestId,
                 functionName: 'validate',
@@ -208,7 +209,7 @@ export default function FundRequest({ params }: { params: Params }) {
                                 <hr />
                                 <div className="my-4">{data.description}</div>
                                 {data.createdAt && (
-                                    <div>
+                                    <div className="italic">
                                         This was requested at:{' '}
                                         {new Date(
                                             data.createdAt
