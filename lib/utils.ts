@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const isEmpty = (obj: any) => !obj || obj.length === 0
 
-export const abbreviate = (s: string, chars?: number) =>
+export const abbreviate = (s: string | undefined, chars?: number) =>
     s ? `${s.substr(0, chars || 6)}**` : ''
 
 export const assertTrue = (condition: boolean, message: string) => {
@@ -27,7 +27,7 @@ export const getExplorerUrl = (
     const prefix = isTx ? 'tx' : 'address'
     const baseUrl = chain?.blockExplorers?.default?.url
     if (!baseUrl) {
-        return undefined
+        return ''
     }
     return `${baseUrl}/${prefix}/${address}`
 }
@@ -47,7 +47,10 @@ export const transformMetadata = (contractData: ContractMetadata) => {
     return contractData
 }
 
-export const formatDate = (d: Date | string | number, onlyDate?: boolean) => {
+export const formatDate = (
+    d: Date | string | number | undefined,
+    onlyDate?: boolean
+) => {
     if (!(d instanceof Date)) {
         d = d ? new Date(d) : new Date()
     }

@@ -28,6 +28,7 @@
     "@typechain/hardhat": "^9.0.0",
     "@types/chai": "^4.2.0",
     "@types/mocha": ">=9.1.0",
+    "@wagmi/core": "^2.6.17",
     "@web3modal/wagmi": "^4.1.5",
     "axios": "^1.6.8",
     "chai": "^4.2.0",

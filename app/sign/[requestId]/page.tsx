@@ -5,18 +5,22 @@ import BasicCard from '@/components/basic-card'
 import RenderObject from '@/components/render-object'
 import { Button } from '@/components/ui/button'
 import { FUND_CONTRACT } from '@/lib/contract/metadata'
-import { simulateContract, writeContract } from '@wagmi/core'
 import { useEthersSigner } from '@/lib/get-signer'
 import { ContractMetadata, SchemaEntry } from '@/lib/types'
-import { getExplorerUrl, getIpfsUrl, transformMetadata } from '@/lib/utils'
+import {
+    abbreviate,
+    formatDate,
+    getExplorerUrl,
+    getIpfsUrl,
+    transformMetadata,
+} from '@/lib/utils'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import { Address, Chain, createPublicClient, http } from 'viem'
-import { readContract } from 'viem/actions'
-import {writeContract} from 'wagmi/core'
+import { writeContract } from '@wagmi/core'
 
 import { useAccount, useChainId, useChains, useWriteContract } from 'wagmi'
 
@@ -103,7 +107,7 @@ export default function FundRequest({ params }: { params: Params }) {
             // const attestation = await createAttestation(signer, schemaEntry)
             const attestation = { attestationId: '1234' }
 
-            const res = await writeContract({
+            const res = await writeContract(config, {
                 abi: FUND_CONTRACT.abi,
                 address: requestId,
                 functionName: 'validate',
@@ -111,9 +115,7 @@ export default function FundRequest({ params }: { params: Params }) {
             })
 
             console.log('signRequest validate', res, attestation)
-            const metadata = transformMetadata(res as any)
-
-            setResult(metadata)
+            await fetchData()
         } catch (error) {
             console.log('error signing request', error)
             setError(error)
@@ -136,8 +138,9 @@ export default function FundRequest({ params }: { params: Params }) {
     }
 
     const authorized = address === data?.recipientAddress
-    const showSignRequest = authorized && !result
-    const showResult = Boolean(authorized && data?.validatedAt)
+    const isValidated = Boolean(data?.validatedAt)
+    const showSignRequest = Boolean(authorized && !isValidated)
+    const showResult = Boolean(authorized && isValidated)
 
     const getTitle = () => {
         if (showResult) {
@@ -184,8 +187,21 @@ export default function FundRequest({ params }: { params: Params }) {
 
                 {showResult && (
                     <div>
-                        <div className="text-green-500">
-                            This request has been validated!
+                        {/* <div className="text-black-500"> */}
+                        <div>
+                            This request was validated by{' '}
+                            <Link
+                                className="text-blue-500 hover:underline"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                                href={getExplorerUrl(
+                                    data?.recipientAddress,
+                                    currentChain
+                                )}
+                            >
+                                {abbreviate(data?.recipientAddress)}
+                            </Link>{' '}
+                            at {formatDate(data?.validatedAt)}
                         </div>
 
                         {data && (
