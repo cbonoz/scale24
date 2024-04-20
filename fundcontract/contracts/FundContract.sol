@@ -28,11 +28,11 @@ contract FundContract {
     constructor(
         string memory _name,
         string memory _description,
-        string memory _network,
         uint _balance,
         string memory _recipientName,
         address _recipientAddress,
-        string memory _cid
+        string memory _cid,
+        string memory _network
     ) {
         // Constructor to initialize the contract
         owner = msg.sender;

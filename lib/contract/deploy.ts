@@ -9,7 +9,8 @@ export async function deployContract(
     balance: any,
     recipientName: string,
     recipientAddress: string,
-    cid: string
+    cid: string,
+    network: string
 ) {
     // Deploy contract with ethers
     const factory = new ethers.ContractFactory(
@@ -24,7 +25,8 @@ export async function deployContract(
         balance,
         recipientName,
         recipientAddress,
-        cid
+        cid,
+        network
     )
     // log
     console.log(
@@ -34,7 +36,8 @@ export async function deployContract(
         balance,
         recipientName,
         recipientAddress,
-        cid
+        cid,
+        network
     )
 
     contract = await contract.waitForDeployment()

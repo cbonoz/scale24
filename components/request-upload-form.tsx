@@ -31,6 +31,7 @@ import { deployContract } from '@/lib/contract/deploy'
 import { config } from '@/app/config'
 import { useEthersSigner } from '@/lib/get-signer'
 import { Chain } from 'viem'
+import { network } from 'hardhat'
 
 const formSchema = z.object({
     title: z.string().min(3, {
@@ -114,11 +115,11 @@ function UploadForm() {
                 signer,
                 title,
                 description || '',
-                currentChain?.name || '',
                 balance,
                 recipientName,
                 recipientAddress,
-                cid
+                cid,
+                currentChain?.name || '',
             )
             res['contractAddress'] = contractAddress
             res['contractUrl'] = getExplorerUrl(contractAddress, currentChain)

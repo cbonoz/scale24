@@ -16,10 +16,14 @@ export function SwitchNetwork() {
     const { chains, switchChain } = useSwitchChain()
     const currentChainId = useChainId()
 
+    const chainId = currentChainId + ''
+
     return (
         <Select
-            onValueChange={(chainId) => switchChain({ chainId })}
-            value={currentChainId + ''}
+            onValueChange={(cid: string) =>
+                switchChain({ chainId: parseInt(cid) })
+            }
+            value={chainId}
         >
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select network" />

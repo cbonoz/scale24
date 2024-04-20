@@ -84,8 +84,11 @@ export default function FundRequest({ params }: { params: Params }) {
             return
         }
 
-        const signatureData = ref?.current?.toDataURL() || ''
-        console.log('signatureData', signatureData)
+        let signature = ''
+        if (ref?.current) {
+            const signatureData = (ref.current as any).toDataURL() || ''
+            console.log('signatureData', signatureData)
+        }
 
         setSignLoading(true)
         const d: ContractMetadata = data
@@ -94,7 +97,7 @@ export default function FundRequest({ params }: { params: Params }) {
                 name: d.recipientName,
                 request: d.name,
                 timestamp: Date.now().toString(),
-                signature: '',
+                signature,
                 // signatureData,
             }
 
@@ -184,9 +187,11 @@ export default function FundRequest({ params }: { params: Params }) {
                             This request has been validated!
                         </div>
 
-                        <div className="mt-4">
-                            <RenderObject title="Data" obj={data} />
-                        </div>
+                        {data && (
+                            <div className="mt-4">
+                                <RenderObject title="Data" obj={data} />
+                            </div>
+                        )}
                     </div>
                 )}
 
