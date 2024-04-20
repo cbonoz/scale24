@@ -13,6 +13,8 @@ import { arbitrumSepolia } from 'viem/chains'
 // https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
 const privateKey = '0xabc' // optional
 
+const SCHEMA_ID: string = process.env.NEXT_PUBLIC_SCHEMA_ID + ""
+
 const getClient = () => {
     const client = new SignProtocolClient(SpMode.OffChain, {
         signType: OffChainSignType.EvmEip712,
@@ -32,13 +34,16 @@ export const createSchema = async () => {
     return schemaInfo
 }
 
-export const createAttestation = async () => {
+export const createAttestation = async (data: any, indexingValue: any) => {
     const client = getClient()
     //create attestation
     const attestationInfo = await client.createAttestation({
-        schemaId: 'xxxx', //schemaInfo.schemaId or other schemaId
-        data: { name: 'a' },
-        indexingValue: 'xxx',
+        //schemaInfo.schemaId or other schemaId
+        schemaId: SCHEMA_ID,
+        data,
+        indexingValue,
+        // data: { name: 'a' },
+        // indexingValue: 'xxx',
     })
     return attestationInfo
 }

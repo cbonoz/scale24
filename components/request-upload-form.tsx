@@ -17,21 +17,23 @@ import {
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 import { isEmpty, signUrl } from '@/lib/utils'
-import { setKey } from '@/util/api'
 import RenderObject from './render-object'
 import { Textarea } from './ui/textarea'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { uploadFile } from '@/lib/stor'
-import { deployContract } from 'viem/zksync'
 import { deploy } from '@/lib/contract/deploy'
 
 const formSchema = z.object({
     name: z.string().min(3, {
         message: 'Request name must be at least 3 characters.',
     }),
-    recipient: z.string().min(3, {
+    recipientName: z.string().min(3, {
         message: 'Recipient name must be at least 3 characters.',
     }),
+    recipientAddress: z.string().min(3, {
+        message: 'Recipient address must be at least 3 characters.',
+    }),
+    balance: z.number().optional(),
     // optional
     date: z.date().optional(),
     file: z.any().optional(),
@@ -48,7 +50,10 @@ function UploadForm() {
             'notes',
             'This is to validate proof of funds to have an offer considered'
         )
-        form.setValue('recipient', 'John Doe')
+        form.setValue('recipientName', 'John Doe')
+        form.setValue('recipientAddress', '0x123')
+        // balance
+        form.setValue('balance', 5000)
         form.setValue('date', new Date())
         form.setValue('file', null)
     }
@@ -56,7 +61,10 @@ function UploadForm() {
     const clearForm = () => {
         form.setValue('name', '')
         form.setValue('notes', '')
-        form.setValue('recipient', '')
+        form.setValue('recipientName', '')
+        // balance
+        form.setValue('balance', null)
+        form.setValue('recipientAddress', '')
         form.setValue('date', new Date())
         form.setValue('file', null)
     }
@@ -169,7 +177,7 @@ function UploadForm() {
 
                         <FormField
                             control={form.control}
-                            name="recipient"
+                            name="recipientName"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Recipient name</FormLabel>
@@ -181,6 +189,45 @@ function UploadForm() {
                                     </FormControl>
                                     <FormDescription>
                                         Name of the recipient.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="recipientAddress"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Recipient address</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Recipient address"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Known address
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="balance"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Required balance</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Required balance"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Required balance
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

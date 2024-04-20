@@ -35,7 +35,11 @@ const About = () => {
                     </div>
                 ))}
 
-                <Button onClick={getSchemaId} disabled={loading}>
+                <Button
+                    onClick={getSchemaId}
+                    disabled={loading}
+                    className="mt-3"
+                >
                     {loading && (
                         <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                     )}

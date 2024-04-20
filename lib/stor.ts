@@ -1,4 +1,4 @@
-import lighthouse from '@lighthouse-web3/sdk'
+import { upload } from '@lighthouse-web3/sdk'
 
 const LIGHTHOUSE_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE as string
 
@@ -8,13 +8,14 @@ const progressCallback = (progressData: any) => {
         ((progressData?.total / progressData?.uploaded) as any)?.toFixed(2)
     console.log(percentageDone)
 }
+
 // https://docs.lighthouse.storage/lighthouse-1/how-to/upload-data/file
 export const uploadFile = async (file: File) => {
-    const output = await lighthouse.upload(
+    const output = await upload(
         file,
         LIGHTHOUSE_KEY,
         false,
-        null,
+        undefined,
         progressCallback
     )
     console.log('File Status:', output)
