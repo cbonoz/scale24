@@ -16,15 +16,21 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
-import { isEmpty, signUrl } from '@/lib/utils'
+import {
+    getExplorerUrl,
+    getPlaceholderDescription,
+    isEmpty,
+    signUrl,
+} from '@/lib/utils'
 import RenderObject from './render-object'
 import { Textarea } from './ui/textarea'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { uploadFile } from '@/lib/stor'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId, useChains } from 'wagmi'
 import { deployContract } from '@/lib/contract/deploy'
-import { getEthersProvider } from '@/lib/get-signer'
 import { config } from '@/app/config'
+import { useEthersSigner } from '@/lib/get-signer'
+import { Chain } from 'viem'
 
 const formSchema = z.object({
     title: z.string().min(3, {
@@ -46,15 +52,16 @@ function UploadForm() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<any>(null)
     const { address } = useAccount()
-
-    const provider = getEthersProvider(config)
+    const chainId = useChainId()
+    const chains = useChains()
+    const currentChain: Chain | undefined = (chains || []).find(
+        (c) => c.id === chainId
+    )
+    const signer = useEthersSigner({ chainId })
 
     const setDemoData = async () => {
         form.setValue('title', 'Balance verification request')
-        form.setValue(
-            'description',
-            'This is to validate proof of funds to have an offer considered'
-        )
+        form.setValue('description', getPlaceholderDescription())
         form.setValue('recipientName', 'John Doe')
         form.setValue(
             'recipientAddress',
@@ -103,9 +110,8 @@ function UploadForm() {
                 recipientAddress,
             } = values
 
-            // const signer = await (provider as any).getSigner()
             const contractAddress = await deployContract(
-                provider,
+                signer,
                 title,
                 description || '',
                 balance,
@@ -114,11 +120,11 @@ function UploadForm() {
                 cid
             )
             res['contractAddress'] = contractAddress
+            res['contractUrl'] = getExplorerUrl(contractAddress, currentChain)
             res['cid'] = cid
             res['message'] =
                 'Request created successfully. Share the below url with the intended recipient.'
-            res['url'] = signUrl(address)
-
+            res['url'] = signUrl(contractAddress)
             setResult(res)
             // scroll to result
             window.scrollTo(0, document.body.scrollHeight)
@@ -263,7 +269,16 @@ function UploadForm() {
                                 <FormItem>
                                     <FormLabel>Add attachment</FormLabel>
                                     <FormControl>
-                                        <Input type="file" {...field} />
+                                        <Input
+                                            type="file"
+                                            // {...field}
+                                            onChange={(e) => {
+                                                form.setValue(
+                                                    'file',
+                                                    e.target.files
+                                                )
+                                            }}
+                                        />
                                     </FormControl>
                                     <FormDescription>
                                         Optional attachment for the receipient
@@ -296,7 +311,9 @@ function UploadForm() {
                     </div>
                 </div>
             )}
-            {error && <div className="mt-2 text-red-500">{error}</div>}
+            {error && (
+                <div className="mt-2 text-red-500 max-w-3xl">{error}</div>
+            )}
         </div>
     )
 }

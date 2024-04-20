@@ -7,11 +7,16 @@ import { Button } from '../ui/button'
 export function WalletOptions() {
     const { connectors, connect } = useConnect()
 
+    async function connectWallet({ connector }: any) {
+        console.log('connect', connector)
+        connect({ connector })
+    }
+
     return connectors.map((connector) => (
         <WalletOption
             key={connector.uid}
             connector={connector}
-            onClick={() => connect({ connector })}
+            onClick={connectWallet.bind(null, { connector })}
         />
     ))
 }

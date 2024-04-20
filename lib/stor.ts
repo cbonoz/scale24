@@ -1,4 +1,5 @@
-import { upload } from '@lighthouse-web3/sdk'
+import { upload, uploadBuffer } from '@lighthouse-web3/sdk'
+import { assertTrue } from './utils'
 
 const LIGHTHOUSE_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE as string
 
@@ -10,9 +11,15 @@ const progressCallback = (progressData: any) => {
 }
 
 // https://docs.lighthouse.storage/lighthouse-1/how-to/upload-data/file
-export const uploadFile = async (file: File) => {
+export const uploadFile = async (files: any[]) => {
+    // max 1 mb
+    assertTrue(files.length === 1, 'Only one file allowed')
+    const file = files[0]
+    assertTrue(file.size < 1000000, 'File size must be less than 1mb')
+
+    // const output = await uploadBuffer(data, LIGHTHOUSE_KEY)
     const output = await upload(
-        file,
+        files,
         LIGHTHOUSE_KEY,
         false,
         undefined,

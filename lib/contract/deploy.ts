@@ -18,7 +18,7 @@ export async function deployContract(
         signer
     )
 
-    const contract: any = await factory.deploy(
+    let contract: any = await factory.deploy(
         title,
         description,
         balance,
@@ -37,9 +37,9 @@ export async function deployContract(
         cid
     )
 
-    await contract.deployed()
-    console.log('deployed contract...', contract.address)
-    return contract
+    contract = await contract.waitForDeployment()
+    console.log('deployed contract...', contract.target)
+    return contract.target
 }
 
 export const getMetadata = async (signer: any, address: string) => {

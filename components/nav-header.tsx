@@ -1,4 +1,5 @@
 import ConnectWallet from './wallet/connect-wallet'
+import { SwitchNetwork } from './wallet/switch-network'
 
 const NavHeader = () => {
     return (
@@ -18,7 +19,7 @@ const NavHeader = () => {
                     href="/upload"
                     className="text-gray-500 hover:underline mx-4"
                 >
-                    Create verification request
+                    Create balance request
                 </a>
                 |
                 <a href="/sign" className="text-gray-500 hover:underline mx-4">
@@ -30,8 +31,13 @@ const NavHeader = () => {
                 </a>
                 {/* align right */}
             </nav>
-            <span className="ml-auto  align-right justify-end">
-                <ConnectWallet />
+            <span className="ml-auto align-right justify-end">
+                <span>
+                    <SwitchNetwork />
+                </span>
+                <span>
+                    <ConnectWallet />
+                </span>
             </span>
         </header>
     )

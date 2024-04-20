@@ -1,5 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { Chain } from 'viem'
+import { Config } from 'wagmi'
+import { ContractMetadata } from './types'
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -9,6 +12,36 @@ export const isEmpty = (obj: any) => !obj || obj.length === 0
 
 export const abbreviate = (s: string, chars?: number) =>
     s ? `${s.substr(0, chars || 6)}**` : ''
+
+export const assertTrue = (condition: boolean, message: string) => {
+    if (!condition) {
+        throw new Error(message)
+    }
+}
+
+export const getExplorerUrl = (
+    address: string,
+    chain: Chain,
+    isTx?: boolean
+) => {
+    const prefix = isTx ? 'tx' : 'address'
+    const baseUrl = chain.blockExplorers?.default?.url
+    return `${baseUrl}/${prefix}/${address}`
+}
+
+export const getPlaceholderDescription = () => {
+    // week from now
+    const date = new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000
+    ).toLocaleDateString()
+    return `This is to validate proof of funds to have your offer considered. See the attachment below, sign at your earliest convenience but this would be nice to have by ${date}.`
+}
+
+export const transformMetadata = (contractData: ContractMetadata) => {
+    contractData.balance = Number(contractData.balance)
+    contractData.validatedAt = Number(contractData.validatedAt)
+    return contractData
+}
 
 export const formatDate = (d: Date | string | number, onlyDate?: boolean) => {
     if (!(d instanceof Date)) {
@@ -37,7 +70,11 @@ export const termsUrl = () => `${window.location.origin}/terms`
 export const convertCamelToHuman = (str: string) => {
     // Check if likely datetime timestamp ms
     if (str.length === 13) {
-        return new Date(str).toLocaleDateString()
+        // Check if parseable as a date
+        const date = new Date(parseInt(str))
+        if (!isNaN(date.getTime())) {
+            return formatDate(date)
+        }
     }
 
     return str

@@ -10,7 +10,7 @@ const Upload = () => {
             <BasicCard
                 className="w-[600px] p-4"
                 title="Create new proof of balance request"
-                description="Create a balance verification request. This item will become publicly available for other users to discover."
+                description="Create a new balance verification request. This item will become publicly available for other users to discover."
             >
                 <UploadForm />
             </BasicCard>

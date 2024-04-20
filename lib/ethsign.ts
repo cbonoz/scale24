@@ -8,27 +8,27 @@ import {
 } from '@ethsign/sp-sdk'
 import { privateKeyToAccount } from 'viem/accounts'
 
-import { arbitrumSepolia } from 'viem/chains'
+import { arbitrumSepolia, gnosisChiado } from 'viem/chains'
 import { SchemaEntry } from './types'
 
 // https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
-const privateKey = '0xabc' // optional
+// const privateKey = '0xabc' // optional
 
 const SCHEMA_ID: string = process.env.NEXT_PUBLIC_SCHEMA_ID + ''
-
-const getClient = () => {
-    const client = new SignProtocolClient(SpMode.OffChain, {
-        signType: OffChainSignType.EvmEip712,
-        // rpcUrl: 'https://stylus-testnet.arbitrum.io/rpc',
-        // account: privateKeyToAccount(privateKey), // optional
-    })
-    return client
-}
 
 const schemaItem = (name: string): { name: any; type: any } => ({
     name,
     type: 'string',
 })
+
+const getClient = (signer?: any) => {
+    const client = new SignProtocolClient(SpMode.OffChain, {
+        signType: OffChainSignType.EvmEip712,
+        rpcUrl: gnosisChiado.rpcUrls.default.http[0],
+        account: signer || undefined,
+    })
+    return client
+}
 
 export const getAttestation = async (attestationId: string) => {
     const client = getClient()
@@ -53,10 +53,11 @@ export const createSchema = async () => {
     return { schemaId: schemaInfo.schemaId, data: JSON.stringify(data), title }
 }
 // https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
-export const createAttestation = async (data: SchemaEntry) => {
-    const client = getClient()
+export const createAttestation = async (signer: any, data: SchemaEntry) => {
+    const client = getClient(signer)
     //create attestation
     const indexingValue = `${data.request} ${data.timestamp}`
+    console.log('create sign request', indexingValue, data, signer)
     const attestationInfo = await client.createAttestation({
         schemaId: SCHEMA_ID,
         data,

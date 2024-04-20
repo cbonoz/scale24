@@ -5,6 +5,7 @@ contract FundContract {
     // Struct to represent a data entry
     struct Metadata {
         address owner;
+        uint createdAt;
         string name;
         string description;
         uint balance;
@@ -19,8 +20,6 @@ contract FundContract {
     address private owner;
     // metadata
     Metadata private metadata;
-
-    uint public createdAt = block.timestamp;
 
     // Event to log balance verification
     event FundVerified(string attestationId);
@@ -37,6 +36,7 @@ contract FundContract {
         owner = msg.sender;
         metadata = Metadata(
             msg.sender,
+            block.timestamp,
             _name,
             _description,
             _balance,
