@@ -2,7 +2,15 @@ import { ethers } from 'ethers'
 import { FUND_CONTRACT } from './metadata'
 import { formatDate } from '../utils'
 
-export async function deployContract(signer, uploadName, description, cid) {
+export async function deployContract(
+    signer: any,
+    title: string,
+    description: string,
+    balance: any,
+    recipientName: string,
+    recipientAddress: string,
+    cid: string
+) {
     // Deploy contract with ethers
     const factory = new ethers.ContractFactory(
         FUND_CONTRACT.abi,
@@ -10,9 +18,24 @@ export async function deployContract(signer, uploadName, description, cid) {
         signer
     )
 
-    const contract: any = await factory.deploy(uploadName, description, cid)
+    const contract: any = await factory.deploy(
+        title,
+        description,
+        balance,
+        recipientName,
+        recipientAddress,
+        cid
+    )
     // log
-    console.log('Deploying contract...', uploadName, description, cid)
+    console.log(
+        'Deploying contract...',
+        title,
+        description,
+        balance,
+        recipientName,
+        recipientAddress,
+        cid
+    )
 
     await contract.deployed()
     console.log('deployed contract...', contract.address)
@@ -21,7 +44,7 @@ export async function deployContract(signer, uploadName, description, cid) {
 
 export const getMetadata = async (signer: any, address: string) => {
     const contract = new ethers.Contract(address, FUND_CONTRACT.abi, signer)
-    const result = await contract.getMetadata.call()
+    const result = await (contract.getMetadata as any).call()
     console.log('result', result)
     return {
         name: result[0],

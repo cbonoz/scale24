@@ -1,22 +1,27 @@
 'use client'
 
 import BasicCard from '@/components/basic-card'
+import RenderObject from '@/components/render-object'
 import { Button } from '@/components/ui/button'
 import { createSchema } from '@/lib/ethsign'
 import { config } from '@/util/site-config'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
+import { set } from 'react-hook-form'
 
 const About = () => {
     const [loading, setLoading] = useState(false)
+
+    const [result, setResult] = useState<any>(null)
+
     const getSchemaId = async () => {
         setLoading(true)
         try {
             const res = await createSchema()
             console.log('createSchema', res)
-            alert('Schema ID: ' + res)
+            setResult(res)
         } catch (error) {
-            console.log(error)
+            console.log('error creating schema', error)
         } finally {
             setLoading(false)
         }
@@ -45,6 +50,12 @@ const About = () => {
                     )}
                     Get Schema ID
                 </Button>
+
+                {result && (
+                    <div className="my-2">
+                        <RenderObject title="Result" obj={result} />
+                    </div>
+                )}
             </BasicCard>
         </div>
     )

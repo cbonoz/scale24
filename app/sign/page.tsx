@@ -18,7 +18,7 @@ const Sign = () => {
                 className="min-w-[400px] p-4"
             >
                 <Input
-                    placeholder="Enter request ID"
+                    placeholder="Enter request address"
                     value={requestId}
                     onChange={(e) => setRequestId(e.target.value)}
                 />

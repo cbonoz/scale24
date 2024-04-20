@@ -4,15 +4,15 @@ pragma solidity ^0.8.19;
 contract FundContract {
     // Struct to represent a data entry
     struct Metadata {
-        address creator;
+        address owner;
         string name;
         string description;
         uint balance;
         string recipientName;
         address recipientAddress;
         string cid; // optional cid pointer to attachment/s
-        string notes; // optional notes
         uint validatedAt;
+        string attestationId;
     }
 
     // owner
@@ -23,7 +23,7 @@ contract FundContract {
     uint public createdAt = block.timestamp;
 
     // Event to log balance verification
-    event FundVerified(uint balance);
+    event FundVerified(string attestationId);
 
     constructor(
         string memory _name,
@@ -31,8 +31,7 @@ contract FundContract {
         uint _balance,
         string memory _recipientName,
         address _recipientAddress,
-        string memory _cid,
-        string memory _notes
+        string memory _cid
     ) {
         // Constructor to initialize the contract
         owner = msg.sender;
@@ -44,8 +43,8 @@ contract FundContract {
             _recipientName,
             _recipientAddress,
             _cid,
-            _notes,
-            0
+            0,
+            ""
         );
     }
 
@@ -54,8 +53,9 @@ contract FundContract {
         return owner;
     }
 
-    // Function to retrieve data by its unique URL (dataHash)
-    function validate(uint balance ) public returns (Metadata memory) {
+    function validate(string memory _attestationId) public returns (Metadata memory) {
+        // get balance of sender
+        uint balance = address(msg.sender).balance;
         // only the recipient address can validate
         require(
             msg.sender == metadata.recipientAddress,
@@ -67,8 +67,9 @@ contract FundContract {
         require(metadata.validatedAt == 0, "Balance already validated");
         // set validatedAt timestamp
         metadata.validatedAt = block.timestamp;
+        metadata.attestationId = _attestationId;
         // emit event
-        emit FundVerified(balance);
+        emit FundVerified(_attestationId);
         return metadata;
     }
 

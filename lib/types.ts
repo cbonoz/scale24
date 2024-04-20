@@ -1,6 +1,3 @@
-
-
-
 export interface RequestData {
     recipientName: string
     recipientAddress: string
@@ -8,4 +5,16 @@ export interface RequestData {
     name: string
     description: string
     files: string[]
+}
+
+export interface SchemaItem {
+    name: string
+    type: string
+}
+
+export interface SchemaEntry {
+    name: string
+    request: string
+    timestamp: string
+    signature: string
 }

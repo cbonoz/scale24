@@ -21,11 +21,13 @@ import RenderObject from './render-object'
 import { Textarea } from './ui/textarea'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { uploadFile } from '@/lib/stor'
-import { deploy } from '@/lib/contract/deploy'
 import { useAccount } from 'wagmi'
+import { deployContract } from '@/lib/contract/deploy'
+import { getEthersProvider } from '@/lib/get-signer'
+import { config } from '@/app/config'
 
 const formSchema = z.object({
-    name: z.string().min(3, {
+    title: z.string().min(3, {
         message: 'Request name must be at least 3 characters.',
     }),
     recipientName: z.string().min(3, {
@@ -35,39 +37,40 @@ const formSchema = z.object({
         message: 'Recipient address must be at least 3 characters.',
     }),
     balance: z.number().optional(),
-    // optional
-    date: z.date().optional(),
     file: z.any().optional(),
-    notes: z.string().optional(),
+    description: z.string().optional(),
 })
 
 function UploadForm() {
     const [result, setResult] = useState<any>(null)
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<any>(null)
     const { address } = useAccount()
 
+    const provider = getEthersProvider(config)
+
     const setDemoData = async () => {
-        form.setValue('name', 'Balance verification request')
+        form.setValue('title', 'Balance verification request')
         form.setValue(
-            'notes',
+            'description',
             'This is to validate proof of funds to have an offer considered'
         )
         form.setValue('recipientName', 'John Doe')
-        form.setValue('recipientAddress', '0x123')
+        form.setValue(
+            'recipientAddress',
+            address || '0x1234567890123456789012345678901234567890'
+        )
         // balance
         form.setValue('balance', 5000)
-        form.setValue('date', new Date())
         form.setValue('file', null)
     }
 
     const clearForm = () => {
-        form.setValue('name', '')
-        form.setValue('notes', '')
+        form.setValue('title', '')
+        form.setValue('description', '')
         form.setValue('recipientName', '')
-        // balance
         form.setValue('balance', undefined)
         form.setValue('recipientAddress', '')
-        form.setValue('date', new Date())
         form.setValue('file', null)
     }
 
@@ -79,8 +82,8 @@ function UploadForm() {
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true)
+        setError(null)
         try {
-            const address = '0x123'
             const res: any = {}
 
             // upload file
@@ -91,9 +94,25 @@ function UploadForm() {
                 console.log('fileAddress', cid)
             }
             // upload contract
-            // TODO
 
-            const contractAddress = await deploy(res, [])
+            const {
+                title,
+                description,
+                balance,
+                recipientName,
+                recipientAddress,
+            } = values
+
+            // const signer = await (provider as any).getSigner()
+            const contractAddress = await deployContract(
+                provider,
+                title,
+                description || '',
+                balance,
+                recipientName,
+                recipientAddress,
+                cid
+            )
             res['contractAddress'] = contractAddress
             res['cid'] = cid
             res['message'] =
@@ -106,9 +125,7 @@ function UploadForm() {
             clearForm()
         } catch (err: any) {
             console.error(err)
-            setResult({
-                error: err?.message || 'Unknown error',
-            })
+            setError(err?.message || 'Unknown error')
         } finally {
             setLoading(false)
         }
@@ -134,7 +151,7 @@ function UploadForm() {
                         {/* Name */}
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="title"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
@@ -157,18 +174,18 @@ function UploadForm() {
                         {/* Notes */}
                         <FormField
                             control={form.control}
-                            name="notes"
+                            name="description"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Enter description</FormLabel>
                                     <FormControl>
                                         <Textarea
-                                            placeholder="Notes"
+                                            placeholder="Enter request description"
                                             {...field}
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Additional notes for the request.
+                                        Additional description for the request.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -266,16 +283,6 @@ function UploadForm() {
                                 : 'Create request'}
                         </Button>
                     </form>
-
-                    {/* error */}
-                    {/* {form.formState.errors && (
-        <div className="pt-8">
-          <div className="text-xl text-bold">Errors:</div>
-          <div>{JSON.stringify(form.formState.errors)}</div>
-        </div>
-      )} */}
-
-                    {/* formState */}
                 </Form>
             )}
             {hasResult && (
@@ -289,6 +296,7 @@ function UploadForm() {
                     </div>
                 </div>
             )}
+            {error && <div className="mt-2 text-red-500">{error}</div>}
         </div>
     )
 }

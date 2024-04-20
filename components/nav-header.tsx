@@ -28,8 +28,11 @@ const NavHeader = () => {
                 <a href="/about" className="text-gray-500 hover:underline mx-4">
                     About
                 </a>
-                <ConnectWallet />
+                {/* align right */}
             </nav>
+            <span className="ml-auto  align-right justify-end">
+                <ConnectWallet />
+            </span>
         </header>
     )
 }

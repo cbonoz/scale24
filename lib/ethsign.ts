@@ -9,41 +9,58 @@ import {
 import { privateKeyToAccount } from 'viem/accounts'
 
 import { arbitrumSepolia } from 'viem/chains'
+import { SchemaEntry } from './types'
 
 // https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
 const privateKey = '0xabc' // optional
 
-const SCHEMA_ID: string = process.env.NEXT_PUBLIC_SCHEMA_ID + ""
+const SCHEMA_ID: string = process.env.NEXT_PUBLIC_SCHEMA_ID + ''
 
 const getClient = () => {
     const client = new SignProtocolClient(SpMode.OffChain, {
         signType: OffChainSignType.EvmEip712,
-        rpcUrl: 'https://stylus-testnet.arbitrum.io/rpc',
+        // rpcUrl: 'https://stylus-testnet.arbitrum.io/rpc',
         // account: privateKeyToAccount(privateKey), // optional
     })
     return client
 }
 
+const schemaItem = (name: string): { name: any; type: any } => ({
+    name,
+    type: 'string',
+})
+
+export const getAttestation = async (attestationId: string) => {
+    const client = getClient()
+    const attestationInfo = await client.getAttestation(attestationId)
+    return attestationInfo
+}
+
 export const createSchema = async () => {
     //create schema
     const client = getClient()
+    const data = [
+        schemaItem('name'),
+        schemaItem('request'),
+        schemaItem('timestamp'),
+        schemaItem('signature'),
+    ]
+    const title = config.title
     const schemaInfo = await client.createSchema({
-        name: config.title,
-        data: [{ name: 'name', type: 'string' }],
+        name: title,
+        data,
     })
-    return schemaInfo
+    return { schemaId: schemaInfo.schemaId, data: JSON.stringify(data), title }
 }
-
-export const createAttestation = async (data: any, indexingValue: any) => {
+// https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
+export const createAttestation = async (data: SchemaEntry) => {
     const client = getClient()
     //create attestation
+    const indexingValue = `${data.request} ${data.timestamp}`
     const attestationInfo = await client.createAttestation({
-        //schemaInfo.schemaId or other schemaId
         schemaId: SCHEMA_ID,
         data,
         indexingValue,
-        // data: { name: 'a' },
-        // indexingValue: 'xxx',
     })
     return attestationInfo
 }
