@@ -7,9 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export const isEmpty = (obj: any) => !obj || obj.length === 0
 
-export const abbreviate = (s: string) => (s ? `${s.substr(0, 6)}**` : '')
+export const abbreviate = (s: string, chars?: number) =>
+    s ? `${s.substr(0, chars || 6)}**` : ''
 
-export const formatDate = (d: Date | string, onlyDate: boolean) => {
+export const formatDate = (d: Date | string | number, onlyDate?: boolean) => {
     if (!(d instanceof Date)) {
         d = d ? new Date(d) : new Date()
     }

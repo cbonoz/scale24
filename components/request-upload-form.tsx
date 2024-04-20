@@ -22,6 +22,7 @@ import { Textarea } from './ui/textarea'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { uploadFile } from '@/lib/stor'
 import { deploy } from '@/lib/contract/deploy'
+import { useAccount } from 'wagmi'
 
 const formSchema = z.object({
     name: z.string().min(3, {
@@ -43,6 +44,7 @@ const formSchema = z.object({
 function UploadForm() {
     const [result, setResult] = useState<any>(null)
     const [loading, setLoading] = useState(false)
+    const { address } = useAccount()
 
     const setDemoData = async () => {
         form.setValue('name', 'Balance verification request')
@@ -63,7 +65,7 @@ function UploadForm() {
         form.setValue('notes', '')
         form.setValue('recipientName', '')
         // balance
-        form.setValue('balance', null)
+        form.setValue('balance', undefined)
         form.setValue('recipientAddress', '')
         form.setValue('date', new Date())
         form.setValue('file', null)
@@ -207,7 +209,10 @@ function UploadForm() {
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Known address
+                                        Known address used for authentication
+                                        and ownership attestation. Recipient
+                                        should provide the desired address to
+                                        you.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -252,39 +257,13 @@ function UploadForm() {
                             )}
                         />
 
-                        <FormField
-                            control={form.control}
-                            name="date"
-                            disabled={true}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>
-                                        Date created (tentative){' '}
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Date"
-                                            disabled={true}
-                                            value={form
-                                                .getValues()
-                                                .date?.toLocaleDateString()}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Date of the request creation. This is
-                                        determined on successful creation and
-                                        shown on the request page.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <Button disabled={loading} type="submit">
+                        <Button disabled={loading || !address} type="submit">
                             {loading && (
                                 <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                             )}
-                            Create request
+                            {!address
+                                ? 'Connect wallet to continue'
+                                : 'Create request'}
                         </Button>
                     </form>
 

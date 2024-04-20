@@ -1,24 +1,27 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { Button } from './ui/button'
+import { useAccount } from 'wagmi'
 
 export const RouteButtons = () => {
+
     const router = useRouter()
     return (
         <div className="flex space-x-4">
-            <button
+            <Button
                 className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
                 onClick={() => router.push('/upload')}
             >
                 Create request
-            </button>
+            </Button>
 
-            <button
+            <Button
                 className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
                 onClick={() => router.push('/sign')}
             >
                 Verify balance request
-            </button>
+            </Button>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import { config } from '@/util/site-config'
 const Upload = () => {
     return (
         // container classes centered
-        <div className="flex flex-row items-center justify-center mt-8">
+        <div className="flex flex-row justify-center mt-8">
             {/* make min width 400 */}
             <BasicCard
                 className="w-[600px] p-4"
@@ -15,20 +15,22 @@ const Upload = () => {
                 <UploadForm />
             </BasicCard>
 
-            <BasicCard
-                className="w-[300px] p-4 mx-4"
-                title="Steps"
-                description=""
-            >
-                {config.steps.map((step, index) => (
-                    <div key={index} className="mt-4">
-                        <h3 className="text-lg font-bold">
-                            {index + 1}. {step.title}
-                        </h3>
-                        <p>{step.description}</p>
-                    </div>
-                ))}
-            </BasicCard>
+            <div>
+                <BasicCard
+                    className="w-[300px] h-[500px] px-2 py-6  mx-4 sticky top-24"
+                    title="Steps"
+                    description=""
+                >
+                    {config.steps.map((step, index) => (
+                        <div key={index} className="mb-4">
+                            <h3 className="text-lg font-bold">
+                                {index + 1}. {step.title}
+                            </h3>
+                            <p>{step.description}</p>
+                        </div>
+                    ))}
+                </BasicCard>
+            </div>
         </div>
     )
 }
