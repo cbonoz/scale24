@@ -114,6 +114,7 @@ function UploadForm() {
                 signer,
                 title,
                 description || '',
+                currentChain?.name || '',
                 balance,
                 recipientName,
                 recipientAddress,

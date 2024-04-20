@@ -8,7 +8,7 @@ import { FUND_CONTRACT } from '@/lib/contract/metadata'
 import { createAttestation } from '@/lib/ethsign'
 import { useEthersSigner } from '@/lib/get-signer'
 import { ContractMetadata, SchemaEntry } from '@/lib/types'
-import { getIpfsUrl, transformMetadata } from '@/lib/utils'
+import { getExplorerUrl, getIpfsUrl, transformMetadata } from '@/lib/utils'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -155,9 +155,18 @@ export default function FundRequest({ params }: { params: Params }) {
             <BasicCard
                 title={getTitle()}
                 // description="Find and verify a fund request using your wallet."
-                className="max-w-[800px] p-4"
+                className="max-w-[1000px] p-4"
             >
-                <div className="text-2xl text-bold">{requestId}</div>
+                <div className="text-sm text-bold">
+                    <Link
+                        className="text-blue-500 hover:underline"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        href={getExplorerUrl(requestId, currentChain) || ''}
+                    >
+                        View on {data?.network || 'explorer'}
+                    </Link>
+                </div>
 
                 {!authorized && (
                     <div>
@@ -205,9 +214,9 @@ export default function FundRequest({ params }: { params: Params }) {
                                     <div className="my-2">
                                         <Link
                                             className="text-blue-500 hover:underline"
-                                            href={getIpfsUrl(data.cid)}
                                             rel="noopener noreferrer"
                                             target="_blank"
+                                            href={getIpfsUrl(data.cid)}
                                         >
                                             View attachment
                                         </Link>

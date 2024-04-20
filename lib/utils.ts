@@ -21,11 +21,14 @@ export const assertTrue = (condition: boolean, message: string) => {
 
 export const getExplorerUrl = (
     address: string,
-    chain: Chain,
+    chain?: Chain,
     isTx?: boolean
 ) => {
     const prefix = isTx ? 'tx' : 'address'
-    const baseUrl = chain.blockExplorers?.default?.url
+    const baseUrl = chain?.blockExplorers?.default?.url
+    if (!baseUrl) {
+        return undefined
+    }
     return `${baseUrl}/${prefix}/${address}`
 }
 

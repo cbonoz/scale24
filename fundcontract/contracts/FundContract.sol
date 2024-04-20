@@ -5,6 +5,7 @@ contract FundContract {
     // Struct to represent a data entry
     struct Metadata {
         address owner;
+        string network;
         uint createdAt;
         string name;
         string description;
@@ -27,6 +28,7 @@ contract FundContract {
     constructor(
         string memory _name,
         string memory _description,
+        string memory _network,
         uint _balance,
         string memory _recipientName,
         address _recipientAddress,
@@ -36,6 +38,7 @@ contract FundContract {
         owner = msg.sender;
         metadata = Metadata(
             msg.sender,
+            _network,
             block.timestamp,
             _name,
             _description,

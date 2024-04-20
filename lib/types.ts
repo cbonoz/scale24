@@ -18,6 +18,7 @@ export interface ContractMetadata {
     cid?: string // optional cid pointer to attachment/s
     validatedAt: number
     attestationId: string
+    network: string
 }
 
 export interface SchemaItem {
