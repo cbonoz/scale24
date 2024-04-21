@@ -19,6 +19,13 @@ export const assertTrue = (condition: boolean, message: string) => {
     }
 }
 
+export const formatCurrency = (amount: number, chain: Chain) => {
+    // decimals
+    const decimals = chain.nativeCurrency.decimals
+    const symbol = chain.nativeCurrency.symbol
+    return `${amount / 10 ** decimals} ${symbol}`
+}
+
 export const getExplorerUrl = (
     address: string,
     chain?: Chain,

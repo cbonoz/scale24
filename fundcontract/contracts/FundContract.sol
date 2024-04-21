@@ -9,7 +9,7 @@ contract FundContract {
         uint createdAt;
         string name;
         string description;
-        uint balance;
+        uint256 balance;
         string recipientName;
         address recipientAddress;
         string cid; // optional cid pointer to attachment/s
@@ -23,12 +23,12 @@ contract FundContract {
     Metadata private metadata;
 
     // Event to log balance verification
-    event FundVerified(string attestationId);
+    event FundVerified(address verifier, uint256 balance, string attestationId);
 
     constructor(
         string memory _name,
         string memory _description,
-        uint _balance,
+        uint256 _balance,
         string memory _recipientName,
         address _recipientAddress,
         string memory _cid,
@@ -58,21 +58,22 @@ contract FundContract {
 
     function validate(string memory _attestationId) public returns (Metadata memory) {
         // get balance of sender
-        uint balance = address(msg.sender).balance;
+        uint256 balance = address(msg.sender).balance;
+        uint256 targetBalance = metadata.balance;
         // only the recipient address can validate
         require(
             msg.sender == metadata.recipientAddress,
             "Only the intended recipient can validate their balance"
         );
         // require at least balance of the metadata
-        require(balance >= metadata.balance, "Balance is less than expected");
+        require(balance >= targetBalance, "Balance is less than expected");
         // only validate once
         require(metadata.validatedAt == 0, "Balance already validated");
         // set validatedAt timestamp
         metadata.validatedAt = block.timestamp;
         metadata.attestationId = _attestationId;
         // emit event
-        emit FundVerified(_attestationId);
+        emit FundVerified(msg.sender, balance, _attestationId);
         return metadata;
     }
 

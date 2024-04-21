@@ -9,6 +9,7 @@ import { useEthersSigner } from '@/lib/get-signer'
 import { ContractMetadata, SchemaEntry } from '@/lib/types'
 import {
     abbreviate,
+    formatCurrency,
     formatDate,
     getExplorerUrl,
     getIpfsUrl,
@@ -23,6 +24,17 @@ import { Address, Chain, createPublicClient, http } from 'viem'
 import { writeContract } from '@wagmi/core'
 
 import { useAccount, useChainId, useChains, useWriteContract } from 'wagmi'
+import { createAttestation } from '@/lib/ethsign'
+
+const RESULT_KEYS = [
+    'name',
+    'description',
+    'recipientName',
+    'recipientAddress',
+    'owner',
+    'network',
+    'attestationId',
+]
 
 interface Params {
     requestId: Address
@@ -104,9 +116,10 @@ export default function FundRequest({ params }: { params: Params }) {
                 // signatureData,
             }
 
-            // const attestation = await createAttestation(signer, schemaEntry)
-            const attestation = { attestationId: '1234' }
+            const attestation = await createAttestation(signer, schemaEntry)
+            // const attestation = { attestationId: '1234' }
 
+            console.log('created attestation', attestation)
             const res = await writeContract(config, {
                 abi: FUND_CONTRACT.abi,
                 address: requestId,
@@ -146,7 +159,7 @@ export default function FundRequest({ params }: { params: Params }) {
         if (showResult) {
             return (
                 <span className="text-green-500">
-                    Request has been validated!
+                    This request has been validated!
                 </span>
             )
         }
@@ -206,7 +219,11 @@ export default function FundRequest({ params }: { params: Params }) {
 
                         {data && (
                             <div className="mt-4">
-                                <RenderObject title="Data" obj={data} />
+                                <RenderObject
+                                    title="Data"
+                                    obj={data}
+                                    keys={RESULT_KEYS}
+                                />
                             </div>
                         )}
                     </div>
@@ -220,7 +237,7 @@ export default function FundRequest({ params }: { params: Params }) {
                                     Hey {data.recipientName},
                                 </div>
                                 <div className="mb-2">
-                                    you have a new proof of funds request!
+                                    You have a new proof of funds request!
                                 </div>
                                 <hr />
                                 <div className="my-4">{data.description}</div>
@@ -240,16 +257,32 @@ export default function FundRequest({ params }: { params: Params }) {
                                             target="_blank"
                                             href={getIpfsUrl(data.cid)}
                                         >
-                                            View attachment
+                                            View request attachment
                                         </Link>
                                     </div>
                                 )}
                             </div>
-                            <RenderObject
-                                title="Details"
-                                obj={data}
-                                keys={['balance', 'owner']}
-                            />
+                            <div className="text-xl font-bold mt-8">
+                                Details
+                            </div>
+                            <div>
+                                Balance to verify:&nbsp;
+                                {formatCurrency(data.balance, currentChain)}
+                            </div>
+                            <div>
+                                Request owner:&nbsp;
+                                <Link
+                                    className="text-blue-500 hover:underline"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    href={getExplorerUrl(
+                                        data.owner,
+                                        currentChain
+                                    )}
+                                >
+                                    {abbreviate(data.owner)}
+                                </Link>
+                            </div>
                         </div>
 
                         <div className="my-4 border w-[325px] p-1">

@@ -38,6 +38,11 @@ FundPoint is a mobile application that leverages zero-knowledge proofs to stream
     * Verify proofs using the app to confirm a buyer's financial eligibility for a smooth pre-qualification process.
     * Expedite serious offers by eliminating the need for lengthy document verification.
 
+
+**Links to an example completed contract requests**
+
+Arbitrum: https://stylus-testnet-explorer.arbitrum.io/address/0x9189c7722C0B815cd3752d559aD10980E20e59B4/transactions#address-tabs
+
 **How we built it**
 
 * **Frontend:** NextJS / deployed on Vercel.
