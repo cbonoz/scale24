@@ -22,6 +22,32 @@ Example of this process in real estate: <a href="https://www.investopedia.com/as
 
 Fundpoint offers mediated proof of fund requests managed by smart contracts to validate balances and create attestations of record backed by Sign Protocol.
 
+<!--
+Demo:
+* If you've ever bought a hom
+* Intro of proof of funds
+* Talk about integrating sponsors
+* Increase accessibility. Speed up the process and eliminate the human back and forth for authentication.
+* Proof of record stored transparently.
+Creation
+* Every request gets it's own smart contract
+* Filecoin manages data hosting for attachments. This could include things like the bank letter or similar to still include to the signer.
+* Enter how much funds you want the individual to prove.
+Deploy
+* Describe what is happening
+* Link you could share via email. Say to complete at convenience.
+Sign
+* Authentication
+* Completely managed by the previous smart contract
+* Describe different benefits of using contract record
+* Show blockchain smart contract record
+* Sign protocol emit with a hash of the signature.
+* Need to demonstrate sufficient balance.
+* Event is emitted on sign, can be tracked or monitored externally
+Github
+Code is open source
+Prototype is live.
+ -->
 
 ### How it works
 
