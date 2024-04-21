@@ -20,7 +20,8 @@ With Fundpoint, you can prove or assert you have a certain balance on connected 
 
 Example of this process in real estate: <a href="https://www.investopedia.com/ask/answers/082316/how-do-mortgage-lenders-check-and-verify-bank-statements.asp#:~:text=A%20proof%20of%20deposit%20is,closing%20costs%20for%20a%20property." target="_blank"> Proof of funds</a>
 
-Fundpoint offers mediated proof of fund requests managed by smart contracts f create attestations of record on Sign Protocol backed by smart contracts
+Fundpoint offers mediated proof of fund requests managed by smart contracts to validate balances and create attestations of record backed by Sign Protocol.
+
 
 ### How it works
 
