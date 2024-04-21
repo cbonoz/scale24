@@ -17,7 +17,7 @@ const Upload = () => {
 
             <div>
                 <BasicCard
-                    className="w-[300px] h-[500px] px-2 py-6  mx-4 sticky top-24"
+                    className="w-[300px] h-[600px] px-2 py-6  mx-4 sticky top-24"
                     title="Steps"
                     description=""
                 >

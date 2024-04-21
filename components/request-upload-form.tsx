@@ -173,7 +173,7 @@ function UploadForm() {
                                     </FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="$5000 balance request verification"
+                                            placeholder={`.1 ${currency} balance request verification`}
                                             {...field}
                                         />
                                     </FormControl>
@@ -294,7 +294,8 @@ function UploadForm() {
                                     </FormControl>
                                     <FormDescription>
                                         Optional attachment for the receipient
-                                        to download / access.
+                                        to download / access from the
+                                        verification page.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

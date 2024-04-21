@@ -26,18 +26,19 @@ export const config = {
     ],
     steps: [
         {
-            title: 'Upload',
+            title: 'Create',
             description:
-                'Upload a balance verification request. The verification link will be available at a shareable url',
+                'Create a balance verification request. A verification link will be generated that you can send to the other party.',
         },
         {
-            title: 'Sign',
+            title: 'Share',
             description:
-                'Sign a request to verify their balance. Neither the exact balance nor addresses will be exposed to the requester.',
+                'Recipient accesses the verification link and connects with a known address. The recipient proves ownership and additionally signs with attestation that the funds belong to them.',
         },
         {
             title: 'Verify',
-            description: 'Verify a signed request to confirm the balance.',
+            description:
+                'Requester can review the completed attestation and verification event on an underlying smart contract.',
         },
     ],
 }
