@@ -44,7 +44,7 @@ const formSchema = z.object({
     recipientAddress: z.string().min(3, {
         message: 'Recipient address must be at least 3 characters.',
     }),
-    balance: z.number().min(0.0001),
+    balance: z.string(),
     file: z.any().optional(),
     description: z.string().optional(),
 })
@@ -70,7 +70,7 @@ function UploadForm() {
             address || '0x1234567890123456789012345678901234567890'
         )
         // balance
-        form.setValue('balance', 0.0001)
+        form.setValue('balance', '0.0001')
         form.setValue('file', null)
     }
 
@@ -78,7 +78,7 @@ function UploadForm() {
         form.setValue('title', '')
         form.setValue('description', '')
         form.setValue('recipientName', '')
-        form.setValue('balance', 0)
+        form.setValue('balance', '0')
         form.setValue('recipientAddress', '')
         form.setValue('file', null)
     }
@@ -94,6 +94,12 @@ function UploadForm() {
         setError(null)
         try {
             const res: any = {}
+            let balance = parseFloat(values.balance)
+            if (isNaN(balance) || balance <= 0) {
+                throw new Error(
+                    'Balance must be a valid number greater than 0.'
+                )
+            }
 
             // upload file
             const file = values.file
@@ -105,13 +111,8 @@ function UploadForm() {
 
             // upload contract
 
-            const {
-                title,
-                description,
-                balance,
-                recipientName,
-                recipientAddress,
-            } = values
+            const { title, description, recipientName, recipientAddress } =
+                values
 
             const decimals = currentChain?.nativeCurrency?.decimals || 18
             const targetBalance = balance * 10 ** decimals

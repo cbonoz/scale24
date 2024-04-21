@@ -57,6 +57,7 @@ contract FundContract {
     }
 
     function validate(string memory _attestationId) public returns (Metadata memory) {
+        // verify address
         // get balance of sender
         uint256 balance = address(msg.sender).balance;
         uint256 targetBalance = metadata.balance;

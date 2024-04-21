@@ -12,63 +12,74 @@ Live Demo url: https://fundpoint.vercel.app (Stylus testnet)
 
 Demo video:
 
-**Inspiration**
+### Inspiration
 
 Many high value purchases warrant proof of funds requests to know if a given offer or potential buyer is serious.
 
-With Fundpoint, you can prove or assert you have a certain balance on connected wallets without exposing any of your addresses or credentials to the requester. Fundpoint generates a proof point at the time of sign that can be shared with the requester with a certificate that is saved to web3.storage/ipfs/saturn.
+With Fundpoint, you can prove or assert you have a certain balance on connected wallets without exposing bank statements or keys to the requester. Fundpoint generates a proof point at the time of attestation / verification that can be shared with the requester with a signature saved via Sign Protocol.
 
-The traditional real estate transaction process is riddled with inefficiencies and a lack of transparency. FundPoint is inspired by the potential of zero-knowledge proofs to revolutionize this process by enabling secure and privacy-preserving proof of balance for buyers.
+Fundpoint offers mediated proof of fund requests managed by smart contracts f create attestations of record on Sign Protocol backed by smart contracts
 
-**Technologies used**
-
-
-
-**What it does**
-
-FundPoint is a mobile application that leverages zero-knowledge proofs to streamline real estate transactions. Here's what it offers:
+### How it works
 
 * **Buyers:**
-    * Securely connect their bank accounts.
-    * Generate zero-knowledge proofs demonstrating sufficient funds for a specific property, without revealing the actual balance.
+    * Securely connect their wallets, showing ownership over particular accounts.
+    * Generate smart contract transactions and sign protocol attestations demonstrating sufficient funds for a specific transaction, without revealing additional or personal details.
     * Share these proofs with sellers or realtors for verification.
 * **Sellers and Realtors:**
     * Verify proofs using the app to confirm a buyer's financial eligibility for a smooth pre-qualification process.
     * Expedite serious offers by eliminating the need for lengthy document verification.
 
 
-**Links to an example completed contract requests**
+When a balance request is created, a smart contract gets deployed marking the information around the balance request. The address of the smart contract serves as part of a unique url which can be shared with the recipient or verifier - only the intended recipient can validate their balance and create an attestation to be shared with the seller.
+
+When the verification is complete, a blockchain event is also emitted with information about the validation. This event can be listened to on other networks or blockchain platforms for triggering other potential workflows.
+
+
+### Technologies used
+
+**Sign Protocol**: Utilized for generating and verifying signatures to ensure the authenticity and integrity of attestations without revealing sensitive information. When balance verifications are completed, a hosted attestation is created alongside the verification process.
+
+**Filecoin**: Used for secure file storage for additional material related to the fund request. When the other party visits the authenticated balance verification link, he or she can access the uploaded material related to the purpose of the upload. This is also secured with saturn and uses lighthouse web3 sdk underneath for both upload and download based on the cid. Created cids are saved to the smart contracts.
+
+***Blockchains***
+
+FundPoint was tested on a few different blockchains with deployed contracts that support fund verification in each native currency.
+
+**Arbitrum**: Leveraged for its scalability and cost-effectiveness in deploying smart contracts and executing transactions, providing an efficient platform for managing fund verification processes.
+
+**Gnosis**: Utilized for its decentralized prediction market capabilities, potentially enhancing risk assessment and prediction of fund availability for involved parties, leading to more informed decision-making.
+
+**Morph**: Employed for interoperability and cross-chain transactions, enabling seamless connectivity between different blockchain networks to enhance the accessibility and usability of Fundpoint across diverse ecosystems.
+
+Eth Mainnet is also supported though carries additional/higher fees.
+
+
+
+### Links to an example completed contract requests
 
 Arbitrum: https://stylus-testnet-explorer.arbitrum.io/address/0x9189c7722C0B815cd3752d559aD10980E20e59B4/transactions#address-tabs
 
-**How we built it**
 
-* **Frontend:** NextJS / deployed on Vercel.
-* **Backend:** Built on the Gnosis chain leveraging smart contracts to manage and verify zero-knowledge proofs.
-* **Security:** Implemented industry-standard security best practices for user data and financial information, integrating with EthSign for secure transaction signing.
-* **Zero-Knowledge Proofs:** Integrated RISC Zero library to enable the generation and verification of proofs without revealing sensitive financial data.
+### Challenges we ran into
+Integration Complexity was the most challenging: Overcoming the technical challenges of integrating multiple blockchain protocols and APIs seamlessly into FundPoint's app flows required additional testing and debugging.
 
-**Challenges we ran into**
 
-* **Balancing Security and Privacy:** Striking a balance between ensuring robust security for the platform while maintaining user privacy and minimizing the amount of revealed financial information.
-* **Integration Complexity:** Seamlessly integrating different technologies (EthSign, Gnosis chain, RISC Zero) within the application.
-* **User Adoption:** Encouraging both buyers and sellers to adopt a new approach to real estate transactions.
+### Accomplishments that we're proud of**
+* User-Centric Design: Designing FundPoint with a focus on user experience and security has resulted in a platform that offers seamless and secure fund verification processes, enhancing trust and confidence among buyers, sellers, and realtors.
+* Blockchain Interoperability: Achieving interoperability between different blockchain networks and protocols showcases our commitment to fostering a connected and accessible decentralized ecosystem.
 
-**Accomplishments that we're proud of**
+### What's next for FundPoint**
 
-* Developed a secure and privacy-preserving solution for real estate transactions using zero-knowledge proofs.
-* Streamlined the pre-qualification process for buyers and sellers, saving time and effort.
-* Increased transparency and trust within the real estate market by enabling secure verification of financial capabilities.
-* Pioneered the use of zero-knowledge proofs in a practical real-world application for real estate.
+1. Enhanced Smart Contract Functionality: Implementing advanced smart contract functionalities to automate and streamline fund verification processes further, reducing manual intervention and increasing efficiency.
 
-**What's next for FundPoint**
+2. Expanded Blockchain Support: Adding support for additional blockchain networks and protocols to broaden FundPoint's reach and accessibility, catering to users across different blockchain ecosystems.
 
-* Expanding support for additional financial institutions and account types.
-* Implementing features for more complex financial scenarios (e.g., down payments, proof of income).
-* Exploring partnerships with real estate agents and brokerages for wider integration.
-* Educating users about the benefits of zero-knowledge proofs and blockchain technology for real estate transactions.
+3. Integration of Advanced Security Features: Integrating advanced security features such as zero-knowledge proofs and multi-factor authentication to enhance the security posture of FundPoint and protect user data and funds effectively.
 
-## Useful links
+
+
+### Useful links
 * https://ethglobal.com/events/scaling2024/home
 * https://ethglobal.com/events/scaling2024/prizes
 
