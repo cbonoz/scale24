@@ -8,7 +8,7 @@ Mediated proof of fund requests managed by smart contracts with attestations of 
 
 Built for <a href="https://ethglobal.com/events/scaling2024">Scaling Ethereum 2024</a>.
 
-Live Demo url: https://fundpoint.vercel.app (Stylus testnet)
+Live Demo url: https://fundpoint.vercel.app (supports Arbitrum Stylus, Gnossis Chiaddo, Morph (testnet))
 
 Demo video: https://youtu.be/fupCAWnYOF8
 
@@ -20,34 +20,6 @@ With Fundpoint, you can prove or assert you have a certain balance on connected 
 
 Example of this process in real estate: <a href="https://www.investopedia.com/ask/answers/082316/how-do-mortgage-lenders-check-and-verify-bank-statements.asp#:~:text=A%20proof%20of%20deposit%20is,closing%20costs%20for%20a%20property." target="_blank"> Proof of funds</a>
 
-
-<!--
-FundPoint
-Demo:
-* If you've ever bought a hom
-* Intro of proof of funds
-* Talk about integrating sponsors
-* Increase accessibility. Speed up the process and eliminate the human back and forth for authentication.
-* Proof of record stored transparently.
-Creation
-* Every request gets it's own smart contract
-* Filecoin manages data hosting for attachments. This could include things like the bank letter or similar to still include to the signer.
-* Enter how much funds you want the individual to prove.
-Deploy
-* Describe what is happening
-* Link you could share via email. Say to complete at convenience.
-Sign
-* Authentication
-* Completely managed by the previous smart contract
-* Describe different benefits of using contract record
-* Show blockchain smart contract record
-* Sign protocol emit with a hash of the signature.
-* Need to demonstrate sufficient balance.
-* Event is emitted on sign, can be tracked or monitored externally
-Github
-Code is open source
-Prototype is live.
- -->
 
 ### How it works
 
@@ -89,6 +61,24 @@ Eth Mainnet is also supported though carries additional/higher fees.
 
 Arbitrum: https://stylus-testnet-explorer.arbitrum.io/address/0x9189c7722C0B815cd3752d559aD10980E20e59B4/transactions#address-tabs
 
+### How to run
+
+1. Fill in values in `.env.sample`, copy to a new file `.env`.
+
+2. `yarn; yarn dev`
+
+The app should now be running on port 3000.
+
+### Updating the smart contract
+
+1. Update `FundContract.sol` in `/fundcontract/contracts`
+
+2. Install dependencies via yarn in root folder. Run `npx hardhat compile` from `/fundcontract`
+
+3. Copy contents (includes ABI) to `metadata.tsx#FUND_CONTRACT`
+
+4. Rebuild web project
+
 
 ### Challenges we ran into
 Integration Complexity was the most challenging: Overcoming the technical challenges of integrating multiple blockchain protocols and APIs seamlessly into FundPoint's app flows required additional testing and debugging.
@@ -107,16 +97,50 @@ Integration Complexity was the most challenging: Overcoming the technical challe
 3. Integration of Advanced Security Features: Integrating advanced security features such as zero-knowledge proofs and multi-factor authentication to enhance the security posture of FundPoint and protect user data and funds effectively.
 
 
-
 ### Useful links
+
 * https://ethglobal.com/events/scaling2024/home
 * https://ethglobal.com/events/scaling2024/prizes
-
 * https://docs.arbitrum.io/stylus/stylus-quickstart
 * https://docs.sign.global/developer-apis/index-1/npm-sdk
-<!-- https://www.youtube.com/watch?v=X2SIfaUWPI0&t=124s -->
-
+* https://docs.morphl2.io/docs/build-on-morph/intro
 * https://github.com/boidushya/web3modal-gnosis/blob/master/configs/index.tsx
+* https://docs.lighthouse.storage/lighthouse-1
 * https://docs.saturn.tech/
 
 ### Image gallery
+
+
+
+
+
+
+
+
+<!--
+FundPoint
+Demo:
+* If you've ever bought a hom
+* Intro of proof of funds
+* Talk about integrating sponsors
+* Increase accessibility. Speed up the process and eliminate the human back and forth for authentication.
+* Proof of record stored transparently.
+Creation
+* Every request gets it's own smart contract
+* Filecoin manages data hosting for attachments. This could include things like the bank letter or similar to still include to the signer.
+* Enter how much funds you want the individual to prove.
+Deploy
+* Describe what is happening
+* Link you could share via email. Say to complete at convenience.
+Sign
+* Authentication
+* Completely managed by the previous smart contract
+* Describe different benefits of using contract record
+* Show blockchain smart contract record
+* Sign protocol emit with a hash of the signature.
+* Need to demonstrate sufficient balance.
+* Event is emitted on sign, can be tracked or monitored externally
+Github
+Code is open source
+Prototype is live.
+ -->

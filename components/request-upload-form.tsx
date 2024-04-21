@@ -338,19 +338,18 @@ function UploadForm() {
                             Request created successfully
                         </div>
                         <div className="flex flex-col items-center">
-                            <div className="text-gray-500 text-sm">
+                            <div className="text-gray-500 text-sm my-2">
                                 Share the below url with the intended recipient
-                                <br />
-                                <Link
-                                    href={result.url}
-                                    target="_blank"
-                                    className="text-blue-500 text-sm hover:underline"
-                                    rel="noopener noreferrer"
-                                >
-                                    {result.url}
-                                </Link>
                             </div>
                         </div>
+                        <Link
+                            href={result.url}
+                            target="_blank"
+                            className="text-blue-500 text-sm hover:underline"
+                            rel="noopener noreferrer"
+                        >
+                            {result.url}
+                        </Link>
                         {result?.contractUrl && (
                             <Button
                                 variant={'secondary'}
