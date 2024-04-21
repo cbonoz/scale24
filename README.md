@@ -119,55 +119,55 @@ Integration Complexity was the most challenging: Overcoming the technical challe
 
 ## Home
 
-![Home](./img/home.png){ width=600 }
+![Home](./img/home.png)
 
 ## About page / creating a new Schema ID for attestation
 
-![About Schema](./img/about_schema.png){ width=600 }
+![About Schema](./img/about_schema.png)
 
 ## Creating a new fund request
 
-![Create](./img/create.png){ width=600 }
+![Create](./img/create.png)
 
 ## Created
 
-![Created](./img/created.png){ width=600 }
+![Created](./img/created.png)
 
 ## Verifying a fund request
 
-![Verify](./img/verify.png){ width=600 }
+![Verify](./img/verify.png)
 
 ## Insufficient balance error
 
-![Error](./img/error.png){ width=600 }
+![Error](./img/error.png)
 
 ## Example Filecoin IPFS Upload
 
-![Filecoin IPFS Upload](./img/filecoin_ipfs_upload.png){ width=600 }
+![Filecoin IPFS Upload](./img/filecoin_ipfs_upload.png)
 
 ### Example Morph contract
 
-![Morph](./img/morph.png){ width=600 }
+![Morph](./img/morph.png)
 
 ### Example Arbitrum Stylus contract
 
-![Stylus](./img/stylus.png){ width=600 }
+![Stylus](./img/stylus.png)
 
 ### Example Gnosis contract
 
-![Gnosis](./img/gnosis.png){ width=600 }
+![Gnosis](./img/gnosis.png)
 
 ## Verified
 
-![Verified](./img/verified.png){ width=600 }
+![Verified](./img/verified.png)
 
 ## Attestation
 
-![Created attestation](./img/attestation.png){ width=600 }
+![Created attestation](./img/attestation.png)
 
 ## Smart Contract code sample
 
-![Contract](./img/contract.png){ width=600 }
+![Contract](./img/contract.png)
 
 
 
