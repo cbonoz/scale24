@@ -11,6 +11,7 @@ import {
     abbreviate,
     formatCurrency,
     formatDate,
+    getAttestationUrl,
     getExplorerUrl,
     getIpfsUrl,
     transformMetadata,
@@ -22,9 +23,16 @@ import { useEffect, useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import { Address, Chain, createPublicClient, http } from 'viem'
 import { writeContract } from '@wagmi/core'
+import { crypto } from 'crypto'
 
-import { useAccount, useChainId, useChains, useWriteContract } from 'wagmi'
-import { createAttestation } from '@/lib/ethsign'
+import {
+    useAccount,
+    useChainId,
+    useChains,
+    useSwitchChain,
+    useWriteContract,
+} from 'wagmi'
+import { createAttestation, getAttestation } from '@/lib/ethsign'
 
 const RESULT_KEYS = [
     'name',
@@ -47,6 +55,7 @@ export default function FundRequest({ params }: { params: Params }) {
     const [result, setResult] = useState<any>(null)
     const [error, setError] = useState<any>(null)
     const ref = useRef(null)
+    const { chains, switchChain } = useSwitchChain()
     const { address } = useAccount()
 
     const router = useRouter()
@@ -54,7 +63,6 @@ export default function FundRequest({ params }: { params: Params }) {
     const { requestId } = params
 
     const chainId = useChainId()
-    const chains = useChains()
     const currentChain: Chain | undefined = (chains || []).find(
         (c) => c.id === chainId
     )
@@ -78,6 +86,11 @@ export default function FundRequest({ params }: { params: Params }) {
             // convert balance and validatedAt to number from bigint
             console.log('contractData', contractData)
             setData(contractData)
+
+            if (contractData.attestationId) {
+                const res = await getAttestation(contractData.attestationId)
+                console.log('getAttestation', res)
+            }
         } catch (error) {
             console.log('error reading contract', error)
             setError(error)
@@ -107,6 +120,12 @@ export default function FundRequest({ params }: { params: Params }) {
 
         setSignLoading(true)
         const d: ContractMetadata = data
+        // generate hash of privateKey
+        signature = crypto
+            .createHash('sha256')
+            .update(d.recipientAddress)
+            .digest('hex')
+
         try {
             const schemaEntry: SchemaEntry = {
                 name: d.recipientName,
@@ -118,6 +137,7 @@ export default function FundRequest({ params }: { params: Params }) {
 
             const attestation = await createAttestation(signer, schemaEntry)
             // const attestation = { attestationId: '1234' }
+            // await switchChain({ chainId })
 
             console.log('created attestation', attestation)
             const res = await writeContract(config, {
@@ -150,7 +170,8 @@ export default function FundRequest({ params }: { params: Params }) {
         return <div>Please connect your wallet</div>
     }
 
-    const authorized = address === data?.recipientAddress
+    const authorized = data && address === data.recipientAddress
+    const invalid = !loading && !data
     const isValidated = Boolean(data?.validatedAt)
     const showSignRequest = Boolean(authorized && !isValidated)
     const showResult = Boolean(authorized && isValidated)
@@ -177,29 +198,38 @@ export default function FundRequest({ params }: { params: Params }) {
                 // description="Find and verify a fund request using your wallet."
                 className="max-w-[1000px] p-4"
             >
-                <div className="text-sm text-bold">
-                    <Link
-                        className="text-blue-500 hover:underline"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        href={getExplorerUrl(requestId, currentChain) || ''}
-                    >
-                        View on {data?.network || 'explorer'}
-                    </Link>
-                </div>
+                {invalid && (
+                    <div>
+                        <p>
+                            This contract may not exist or may be on another
+                            network, double check your currently connected
+                            network
+                        </p>
+                    </div>
+                )}
 
                 {!authorized && (
                     <div>
                         <p>Not authorized to sign this request</p>
-                        <p>
-                            You are connected with address: {address}.<br />
-                            Request is for address: {data?.recipientAddress}
-                        </p>
                     </div>
                 )}
 
                 {showResult && (
                     <div>
+                        <div className="text-sm text-bold">
+                            <Link
+                                className="text-blue-500 hover:underline"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                                href={
+                                    getExplorerUrl(requestId, currentChain) ||
+                                    ''
+                                }
+                            >
+                                View on {data?.network || 'explorer'}
+                            </Link>
+                        </div>
+
                         {/* <div className="text-black-500"> */}
                         <div>
                             This request was validated by{' '}
@@ -226,11 +256,38 @@ export default function FundRequest({ params }: { params: Params }) {
                                 />
                             </div>
                         )}
+                        {/* attentation explorer link */}
+                        {data?.attestationId && (
+                            <div className="my-2">
+                                <Link
+                                    className="text-blue-500 hover:underline"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    href={getAttestationUrl(data.attestationId)}
+                                >
+                                    View attestation
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 )}
 
                 {showSignRequest && (
                     <div>
+                        <div className="text-sm text-bold">
+                            <Link
+                                className="text-blue-500 hover:underline"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                                href={
+                                    getExplorerUrl(requestId, currentChain) ||
+                                    ''
+                                }
+                            >
+                                View on {data?.network || 'explorer'}
+                            </Link>
+                        </div>
+
                         <div className="mt-4">
                             <div className="my-2">
                                 <div className="font-bold text-2xl mb-4 text-black-500">

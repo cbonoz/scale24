@@ -22,9 +22,7 @@ The traditional real estate transaction process is riddled with inefficiencies a
 
 **Technologies used**
 
-* **EthSign:** Enables secure signing of transactions on the Gnosis chain.
-* **Stylus:** Provides a scalable and cost-effective platform for the application's core functionality.
-* **RISC Zero:** Offers the zero-knowledge proof technology that underpins the core verification process.
+
 
 **What it does**
 

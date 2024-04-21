@@ -341,15 +341,16 @@ function UploadForm() {
                         <div className="flex flex-col items-center">
                             <div className="text-gray-500 text-sm">
                                 Share the below url with the intended recipient
+                                <br />
+                                <Link
+                                    href={result.url}
+                                    target="_blank"
+                                    className="text-blue-500 text-sm hover:underline"
+                                    rel="noopener noreferrer"
+                                >
+                                    {result.url}
+                                </Link>
                             </div>
-                            <Link
-                                href={result.url}
-                                target="_blank"
-                                className="text-blue-500 text-sm hover:underline"
-                                rel="noopener noreferrer"
-                            >
-                                {result.url}
-                            </Link>
                         </div>
                         {result?.contractUrl && (
                             <Button

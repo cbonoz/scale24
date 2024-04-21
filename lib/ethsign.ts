@@ -5,14 +5,19 @@ import {
     EvmChains,
     OffChainSignType,
     IndexService,
+    OffChainRpc,
 } from '@ethsign/sp-sdk'
 import { privateKeyToAccount } from 'viem/accounts'
+import crypto from 'crypto'
 
 import { arbitrumSepolia, gnosisChiado } from 'viem/chains'
 import { SchemaEntry } from './types'
 
 // https://docs.sign.global/developer-apis/index-1/npm-sdk#off-chain-arweave-mode
 // const privateKey = '0xabc' // optional
+
+var id = crypto.randomBytes(32).toString('hex')
+const privateKey: any = `0x${id}`
 
 const SCHEMA_ID: string = process.env.NEXT_PUBLIC_SCHEMA_ID + ''
 
@@ -24,8 +29,8 @@ const schemaItem = (name: string): { name: any; type: any } => ({
 const getClient = (signer?: any) => {
     const client = new SignProtocolClient(SpMode.OffChain, {
         signType: OffChainSignType.EvmEip712,
-        rpcUrl: 'https://testnet-rpc.sign.global/api',
-        account: signer,
+        rpcUrl: OffChainRpc.mainnet,
+        account: privateKeyToAccount(privateKey),
     })
     return client
 }

@@ -10,6 +10,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export const isEmpty = (obj: any) => !obj || obj.length === 0
 
+export const getAttestationUrl = (attestationId: string) => {
+    return `https://scan.sign.global/attestation/${attestationId}`
+}
+
 export const abbreviate = (s: string | undefined, chars?: number) =>
     s ? `${s.substr(0, chars || 6)}**` : ''
 
