@@ -150,6 +150,9 @@ export default function FundRequest({ params }: { params: Params }) {
 
             console.log('signRequest validate', res, attestation)
             await fetchData()
+            alert(
+                'Request validated! Please wait a few moments for the blockchain to update and refresh the page.'
+            )
         } catch (error) {
             console.log('error signing request', error)
             setError(error)

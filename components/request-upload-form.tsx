@@ -350,28 +350,29 @@ function UploadForm() {
                         >
                             {result.url}
                         </Link>
-                        {result?.contractUrl && (
-                            <Button
-                                variant={'secondary'}
-                                onClick={() => {
-                                    window.open(result.contractUrl)
-                                }}
-                            >
-                                View contract
-                            </Button>
-                        )}
-                        &nbsp;
-                        {result?.url && (
-                            <Button
-                                variant={'default'}
-                                onClick={() => {
-                                    window.open(result.url)
-                                }}
-                            >
-                                View request page
-                            </Button>
-                        )}
-                        {/* <RenderObject title="Result" obj={result} /> */}
+                        <div className="mt-2">
+                            {result?.contractUrl && (
+                                <Button
+                                    variant={'secondary'}
+                                    onClick={() => {
+                                        window.open(result.contractUrl)
+                                    }}
+                                >
+                                    View contract
+                                </Button>
+                            )}
+                            &nbsp;
+                            {result?.url && (
+                                <Button
+                                    variant={'default'}
+                                    onClick={() => {
+                                        window.open(result.url)
+                                    }}
+                                >
+                                    View request page
+                                </Button>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

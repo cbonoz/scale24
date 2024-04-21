@@ -34,32 +34,37 @@ Example of this process in real estate: <a href="https://www.investopedia.com/as
 
 When a balance request is created, a smart contract gets deployed marking the information around the balance request. The address of the smart contract serves as part of a unique url which can be shared with the recipient or verifier - only the intended recipient can validate their balance and create an attestation to be shared with the seller.
 
-When the verification is complete, a blockchain event is also emitted with information about the validation. This event can be listened to on other networks or blockchain platforms for triggering other potential workflows.
-
+When the verification is complete, a blockchain event is also emitted with information about the validation. This event can be listened to on other networks or blockchain platforms (or for indexing on `the Graph` as well).
 
 ### Technologies used
 
 **Sign Protocol**: Utilized for generating and verifying signatures to ensure the authenticity and integrity of attestations without revealing sensitive information. When balance verifications are completed, a hosted attestation is created alongside the verification process.
 
-**Filecoin**: Used for secure file storage for additional material related to the fund request. When the other party visits the authenticated balance verification link, he or she can access the uploaded material related to the purpose of the upload. This is also secured with saturn and uses lighthouse web3 sdk underneath for both upload and download based on the cid. Created cids are saved to the smart contracts.
+<a href="https://scan.sign.global/attestation/SPA_rJCPlP1-ZaL_LirRGFlb8" target="_blank">Example attestation for a proof of funds request</a>
+
+The attestation is created at time of fund verification and contains a hash of the user's signature. Every fund verification requires a successful attestation be created and this is currently created via the off chain sdk (Airweave).
+
+**Filecoin**: Used for secure file storage for additional material related to the fund request. When the other party visits the authenticated balance verification link, he or she can access the uploaded material related to the purpose of the upload. This is also secured with saturn and uses lighthouse web3 sdk underneath for both upload and download based on the cid. Created cids are saved to the smart contracts and are retrieved when the verification page is accessed. The cid is only revealed to the authorized parties (owner and recipient) for each smart contract / transaction.
+
+<a href="https://gateway.lighthouse.storage/ipfs/QmeSUzMZSmUnj56WkriWwHjWqtJyarFX41EkPdscrQusuy">Example uploaded document</a>
 
 ***Blockchains***
 
-FundPoint was tested on a few different blockchains with deployed contracts that support fund verification in each native currency.
+FundPoint was tested on a few different blockchains with deployed contracts that support fund verification in each native currency. Depending on the use case, the event fired from the contract when verification is completed can be used to trigger separate blockchain-specific workflows.
 
-**Arbitrum**: Leveraged for its scalability and cost-effectiveness in deploying smart contracts and executing transactions, providing an efficient platform for managing fund verification processes.
+**Arbitrum**: Transactions on Arbitrum are confirmed significantly faster than on the Ethereum mainnet, typically within seconds. This is crucial for a fund verification app, where users on a stylus device would expect quick results without long wait times. Low fees also enable creating multiple requests for near zero cost, combined with being fully self-managing, can be a significant time and cost savings compared to human involvement for back and forth exchanges for doing fund verification/ownership.
+
+Example deployed and verified fund smart contract on Arbitrum Stylus: https://stylus-testnet-explorer.arbitrum.io/address/0x9189c7722C0B815cd3752d559aD10980E20e59B4/transactions#address-tabs.
 
 **Gnosis**: Utilized for its decentralized prediction market capabilities, potentially enhancing risk assessment and prediction of fund availability for involved parties, leading to more informed decision-making.
 
+Example deployed and verified fund smart contract on Chiado: https://gnosis-chiado.blockscout.com/address/0xc7f359Ff414fb601b7fAF9D1EdB2742692ABe85C.
+
 **Morph**: Employed for interoperability and cross-chain transactions, enabling seamless connectivity between different blockchain networks to enhance the accessibility and usability of Fundpoint across diverse ecosystems.
 
-Eth Mainnet is also supported though carries additional/higher fees.
+Example deployed and verified fund smart contract on Morph testnet: https://explorer-testnet.morphl2.io/address/0x28adF41Af09720D5462aa48325365E10b91eC2E3
 
-
-
-### Links to an example completed contract requests
-
-Arbitrum: https://stylus-testnet-explorer.arbitrum.io/address/0x9189c7722C0B815cd3752d559aD10980E20e59B4/transactions#address-tabs
+Eth Mainnet is also supported though carries additional/higher fees. On the above fund verification explorer contracts, the first transaction represents the fund contract creation by the owner. The second transaction indicates a successful verification (done by a different address if specified). An emit is evented from the blockchain as well, `FundVerified` which contains the balance and signature attestation id.
 
 ### How to run
 
@@ -111,6 +116,58 @@ Integration Complexity was the most challenging: Overcoming the technical challe
 ### Image gallery
 
 
+
+## Home
+
+![Home](./img/home.png){ width=600 }
+
+## About page / creating a new Schema ID for attestation
+
+![About Schema](./img/about_schema.png){ width=600 }
+
+## Creating a new fund request
+
+![Create](./img/create.png){ width=600 }
+
+## Created
+
+![Created](./img/created.png){ width=600 }
+
+## Verifying a fund request
+
+![Verify](./img/verify.png){ width=600 }
+
+## Insufficient balance error
+
+![Error](./img/error.png){ width=600 }
+
+## Example Filecoin IPFS Upload
+
+![Filecoin IPFS Upload](./img/filecoin_ipfs_upload.png){ width=600 }
+
+### Example Morph contract
+
+![Morph](./img/morph.png){ width=600 }
+
+### Example Arbitrum Stylus contract
+
+![Stylus](./img/stylus.png){ width=600 }
+
+### Example Gnosis contract
+
+![Gnosis](./img/gnosis.png){ width=600 }
+
+## Verified
+
+![Verified](./img/verified.png){ width=600 }
+
+## Attestation
+
+![Created attestation](./img/attestation.png){ width=600 }
+
+## Smart Contract code sample
+
+![Contract](./img/contract.png){ width=600 }
 
 
 
