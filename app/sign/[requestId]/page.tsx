@@ -289,59 +289,63 @@ export default function FundRequest({ params }: { params: Params }) {
                             </Link>
                         </div>
 
-                        <div className="mt-4">
-                            <div className="my-2">
-                                <div className="font-bold text-2xl mb-4 text-black-500">
-                                    Hey {data.recipientName},
-                                </div>
-                                <div className="mb-2">
-                                    You have a new proof of funds request!
-                                </div>
-                                <hr />
-                                <div className="my-4">{data.description}</div>
-                                {data.createdAt && (
-                                    <div className="italic">
-                                        This was requested at:{' '}
-                                        {new Date(
-                                            data.createdAt
-                                        ).toLocaleString()}
+                        {data && (
+                            <div className="mt-4">
+                                <div className="my-2">
+                                    <div className="font-bold text-2xl mb-4 text-black-500">
+                                        Hey {data?.recipientName || 'there'},
                                     </div>
-                                )}
-                                {data.cid && (
-                                    <div className="my-2">
-                                        <Link
-                                            className="text-blue-500 hover:underline"
-                                            rel="noopener noreferrer"
-                                            target="_blank"
-                                            href={getIpfsUrl(data.cid)}
-                                        >
-                                            View request attachment
-                                        </Link>
+                                    <div className="mb-2">
+                                        You have a new proof of funds request!
                                     </div>
-                                )}
-                            </div>
-                            <div className="text-xl font-bold mt-8">
-                                Details
-                            </div>
-                            <div>
-                                Balance to verify:&nbsp;
-                                {formatCurrency(data.balance, currentChain)}
-                            </div>
-                            <div>
-                                Request owner:&nbsp;
-                                <Link
-                                    className="text-blue-500 hover:underline"
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                    href={getExplorerUrl(
-                                        data.owner,
-                                        currentChain
+                                    <hr />
+                                    <div className="my-4">
+                                        {data.description}
+                                    </div>
+                                    {data.createdAt && (
+                                        <div className="italic">
+                                            This was requested at:{' '}
+                                            {new Date(
+                                                data.createdAt
+                                            ).toLocaleString()}
+                                        </div>
                                     )}
-                                >
-                                    {abbreviate(data.owner)}
-                                </Link>
+                                    {data.cid && (
+                                        <div className="my-2">
+                                            <Link
+                                                className="text-blue-500 hover:underline"
+                                                rel="noopener noreferrer"
+                                                target="_blank"
+                                                href={getIpfsUrl(data.cid)}
+                                            >
+                                                View request attachment
+                                            </Link>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="text-xl font-bold mt-8">
+                                    Details
+                                </div>
+                                <div>
+                                    Balance to verify:&nbsp;
+                                    {formatCurrency(data.balance, currentChain)}
+                                </div>
+                                <div>
+                                    Request owner:&nbsp;
+                                    <Link
+                                        className="text-blue-500 hover:underline"
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                        href={getExplorerUrl(
+                                            data.owner,
+                                            currentChain
+                                        )}
+                                    >
+                                        {abbreviate(data.owner)}
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         <div className="my-4 border w-[325px] p-1">
                             <div className="text-med font-bold">Sign here</div>

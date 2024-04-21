@@ -23,7 +23,10 @@ export const assertTrue = (condition: boolean, message: string) => {
     }
 }
 
-export const formatCurrency = (amount: number, chain: Chain) => {
+export const formatCurrency = (amount: number, chain?: Chain) => {
+    if (!chain) {
+        return `${amount} ETH`
+    }
     // decimals
     const decimals = chain.nativeCurrency.decimals
     const symbol = chain.nativeCurrency.symbol
@@ -31,13 +34,13 @@ export const formatCurrency = (amount: number, chain: Chain) => {
 }
 
 export const getExplorerUrl = (
-    address: string,
+    address?: string,
     chain?: Chain,
     isTx?: boolean
 ) => {
     const prefix = isTx ? 'tx' : 'address'
     const baseUrl = chain?.blockExplorers?.default?.url
-    if (!baseUrl) {
+    if (!baseUrl || !address) {
         return ''
     }
     return `${baseUrl}/${prefix}/${address}`
