@@ -39,7 +39,7 @@ function WalletOption({
 
     return (
         <button
-            className="underline text-blue-500"
+            className="underline text-blue-500 ml-4"
             disabled={!ready}
             onClick={onClick}
         >
