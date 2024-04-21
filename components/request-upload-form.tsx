@@ -114,14 +114,12 @@ function UploadForm() {
             const { title, description, recipientName, recipientAddress } =
                 values
 
-            const decimals = currentChain?.nativeCurrency?.decimals || 18
-            const targetBalance = balance * 10 ** decimals
 
             const contractAddress = await deployContract(
                 signer,
                 title,
                 description || '',
-                targetBalance,
+                balance,
                 recipientName,
                 recipientAddress,
                 cid,

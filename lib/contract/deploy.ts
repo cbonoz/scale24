@@ -1,12 +1,12 @@
-import { ethers } from 'ethers'
 import { FUND_CONTRACT } from './metadata'
 import { formatDate } from '../utils'
+import { ethers } from 'ethers'
 
 export async function deployContract(
     signer: any,
     title: string,
     description: string,
-    balance: any,
+    wei: any,
     recipientName: string,
     recipientAddress: string,
     cid: string,
@@ -18,6 +18,13 @@ export async function deployContract(
         FUND_CONTRACT.bytecode,
         signer
     )
+
+    const ethToWei = (amount: any) => {
+        return ethers.parseEther(amount + '')
+    }
+
+    const balance = ethToWei(wei)
+    console.log('balance', balance, wei)
 
     let contract: any = await factory.deploy(
         title,
