@@ -15,7 +15,6 @@ export function Account() {
     const { data: balance } = useBalance({ address })
 
     const shortAddress = abbreviate(address || '', 6)
-    // console.log('shortAddress', shortAddress, balance)
 
     return (
         <div>

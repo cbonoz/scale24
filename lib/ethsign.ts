@@ -41,7 +41,7 @@ export const getAttestation = async (attestationId: string) => {
     return attestationInfo
 }
 
-export const createSchema = async (signer: any) => {
+export const createSchema = async (signer?: any) => {
     //create schema
     const client = getClient(signer)
     const data = [

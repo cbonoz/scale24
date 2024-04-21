@@ -23,7 +23,7 @@ import { useEffect, useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import { Address, Chain, createPublicClient, http } from 'viem'
 import { writeContract } from '@wagmi/core'
-import { crypto } from 'crypto'
+import crypto from 'crypto'
 
 import {
     useAccount,
@@ -125,6 +125,7 @@ export default function FundRequest({ params }: { params: Params }) {
             .createHash('sha256')
             .update(d.recipientAddress)
             .digest('hex')
+            .toString()
 
         try {
             const schemaEntry: SchemaEntry = {

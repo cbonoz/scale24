@@ -16,8 +16,6 @@ export function SwitchNetwork() {
     const { chains, switchChain } = useSwitchChain()
     const currentChainId = useChainId()
 
-    console.log('chain id', currentChainId, chains)
-
     return (
         <Select
             onValueChange={(cid: string) =>
