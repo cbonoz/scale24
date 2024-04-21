@@ -89,11 +89,11 @@ The app should now be running on port 3000.
 Integration Complexity was the most challenging: Overcoming the technical challenges of integrating multiple blockchain protocols and APIs seamlessly into FundPoint's app flows required additional testing and debugging.
 
 
-### Accomplishments that we're proud of**
+### Accomplishments that we're proud of
 * User-Centric Design: Designing FundPoint with a focus on user experience and security has resulted in a platform that offers seamless and secure fund verification processes, enhancing trust and confidence among buyers, sellers, and realtors.
 * Blockchain Interoperability: Achieving interoperability between different blockchain networks and protocols showcases our commitment to fostering a connected and accessible decentralized ecosystem.
 
-### What's next for FundPoint**
+### What's next for FundPoint
 
 1. Enhanced Smart Contract Functionality: Implementing advanced smart contract functionalities to automate and streamline fund verification processes further, reducing manual intervention and increasing efficiency.
 
@@ -113,9 +113,7 @@ Integration Complexity was the most challenging: Overcoming the technical challe
 * https://docs.lighthouse.storage/lighthouse-1
 * https://docs.saturn.tech/
 
-### Image gallery
-
-
+# Image gallery
 
 ## Home
 
@@ -129,7 +127,7 @@ Integration Complexity was the most challenging: Overcoming the technical challe
 
 ![Create](./img/create.png)
 
-## Created
+## Request created
 
 ![Created](./img/created.png)
 
