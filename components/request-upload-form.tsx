@@ -114,7 +114,6 @@ function UploadForm() {
             const { title, description, recipientName, recipientAddress } =
                 values
 
-
             const contractAddress = await deployContract(
                 signer,
                 title,
@@ -240,9 +239,9 @@ function UploadForm() {
                                     </FormControl>
                                     <FormDescription>
                                         Known address used for authentication
-                                        and ownership attestation. Recipient
-                                        should provide the desired address to
-                                        you.
+                                        and ownership attestation. You should
+                                        collect the desired address from the
+                                        recipient before making this request.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
