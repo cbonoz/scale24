@@ -4,13 +4,13 @@
 
 ## FundPoint
 
-Mediated proof of fund requests with one click without exposing your addresses or balance to the requester.
+Mediated proof of fund requests managed by smart contracts with attestations of record backed by Sign Protocol.
 
 Built for <a href="https://ethglobal.com/events/scaling2024">Scaling Ethereum 2024</a>.
 
 Live Demo url: https://fundpoint.vercel.app (Stylus testnet)
 
-Demo video:
+Demo video: https://youtu.be/fupCAWnYOF8
 
 ### Inspiration
 
@@ -20,9 +20,9 @@ With Fundpoint, you can prove or assert you have a certain balance on connected 
 
 Example of this process in real estate: <a href="https://www.investopedia.com/ask/answers/082316/how-do-mortgage-lenders-check-and-verify-bank-statements.asp#:~:text=A%20proof%20of%20deposit%20is,closing%20costs%20for%20a%20property." target="_blank"> Proof of funds</a>
 
-Fundpoint offers mediated proof of fund requests managed by smart contracts to validate balances and create attestations of record backed by Sign Protocol.
 
 <!--
+FundPoint
 Demo:
 * If you've ever bought a hom
 * Intro of proof of funds
